@@ -251,6 +251,9 @@
                       <ellipse cx="18.5" cy="-34.5" rx="3.8" ry="6.5" transform="rotate(-18 18.5 -34.5)" fill="#f26d8d" opacity="0.75" />
                     </g>
 
+                    <!-- Dynamic Hat Slot (1 new hat every 3 Pickle Lollipops!) -->
+                    <g id="pigHatSlot" transform="translate(24, -36) rotate(-5)"></g>
+
                     <!-- Sniff Scent Puffs -->
                     <circle class="sniff-puff" cx="50" cy="-12" r="2.6" fill="#ffffff" opacity="0" />
                     <circle class="sniff-puff sniff-puff--2" cx="54" cy="-9" r="2" fill="#ffffff" opacity="0" />
@@ -277,8 +280,13 @@
               <button id="btnStageSummary" type="button" class="mode-summary-chip" title="Modifier le mode de jeu">
                 <span id="summaryChipText">➕ ✖️ 🔄 • 1 ch. • Moyen</span>
               </button>
-              <div id="streakChip" class="streak-chip" aria-live="polite">
-                🔥 Série <span id="streakCount">0</span>
+              <div class="stage-hud-right">
+                <div id="streakChip" class="streak-chip" aria-live="polite">
+                  🔥 Série <span id="streakCount">0</span>
+                </div>
+                <button id="btnOpenWardrobeHud" type="button" class="hat-hud-chip" title="Chapeaux de Barnabé (1 nouveau chapeau toutes les 3 sucettes !)">
+                  <span id="hatHudText">🎩 0/3 🍭</span>
+                </button>
               </div>
             </div>
           </div>
@@ -497,9 +505,21 @@
       </div>
 
       <p id="rewardFlavorName" class="reward-flavor-name">La Croquante Aigre-Douce du Périgord</p>
-      <p id="rewardDescription" class="reward-desc">
+      <p id="rewardDescription" class="reward-desc" style="margin-bottom:10px;">
         Barnabé se régale ! Tu as maintenant <strong id="rewardTotalPickles">1</strong> sucette au cornichon dans ta collection.
       </p>
+
+      <!-- Unlocked Hat Showcase (every 3 Pickle Lollipops!) -->
+      <div id="hatUnlockBanner" class="hat-unlock-banner">
+        <div id="hatUnlockSvgWrap" class="hat-unlock-svg" aria-hidden="true"></div>
+        <p id="hatUnlockTitle" class="hat-unlock-title">🎩 Nouveau chapeau débloqué !</p>
+        <p id="hatUnlockSub" class="hat-unlock-sub">Barnabé le porte dès maintenant !</p>
+      </div>
+
+      <!-- Progress toward next hat when not a multiple of 3 -->
+      <div id="hatProgressPill" class="hat-progress-pill">
+        🎩 Prochain chapeau dans 2 sucettes (1/3)
+      </div>
 
       <button id="btnContinueAfterReward" type="button" class="primary-action-btn">
         Continuer la chasse aux truffes ! 🐽
@@ -507,11 +527,11 @@
     </div>
   </div>
 
-  <!-- Pickle Lollipop Collection & Sprint Summary Modal -->
+  <!-- Pickle Lollipop Collection & Hat Wardrobe Modal -->
   <div id="collectionModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="collectionTitle">
     <div class="sheet-card">
       <div class="sheet-header">
-        <h2 id="collectionTitle" class="sheet-title">🥒🍭 Trésors de Barnabé</h2>
+        <h2 id="collectionTitle" class="sheet-title">🎩 Trésors &amp; Chapeaux</h2>
         <button id="btnCloseCollection" type="button" class="close-btn" aria-label="Fermer">✕</button>
       </div>
 
@@ -519,6 +539,12 @@
         0 truffe déterrée • Meilleure série : 0
       </p>
 
+      <h3 class="section-subtitle">🎩 Dressing de Barnabé (1 chapeau / 3 sucettes)</h3>
+      <div id="hatWardrobeGrid" class="trophy-grid">
+        <!-- Populated dynamically -->
+      </div>
+
+      <h3 class="section-subtitle">🥒🍭 Sucettes au cornichon (1 sucette / 10 truffes)</h3>
       <div id="trophyGrid" class="trophy-grid">
         <!-- Populated dynamically -->
       </div>

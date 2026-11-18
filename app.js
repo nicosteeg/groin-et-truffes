@@ -42,6 +42,98 @@
     }
   ];
 
+  // 1 new hat unlocked every 3 Pickle Lollipops (3, 6, 9, 12, 15, 18, 21+)
+  const PIG_HATS = [
+    {
+      id: 1,
+      unlockAt: 3,
+      name: 'Le Béret du Truffier',
+      shortName: 'Béret',
+      svg: `
+        <path d="M-11,1 Q0,4 11,1 L10,-2 Q0,0 -10,-2 Z" fill="#1e2640" />
+        <path d="M-16,-2 C-18,-10 -6,-14 6,-11 C15,-9 16,-2 11,1 Q0,3 -16,-2 Z" fill="#2b3a67" stroke="#182240" stroke-width="1.2" />
+        <path d="M-1,-11 Q0,-16 3,-15" fill="none" stroke="#182240" stroke-width="2" stroke-linecap="round" />
+        <circle cx="6" cy="-4" r="2.2" fill="#67c742" stroke="#1f5412" stroke-width="0.8" />
+      `
+    },
+    {
+      id: 2,
+      unlockAt: 6,
+      name: 'Le Chapeau d’Explorateur',
+      shortName: 'Explorateur',
+      svg: `
+        <ellipse cx="0" cy="0.5" rx="18" ry="4.2" fill="#c79c63" stroke="#7d592d" stroke-width="1.2" />
+        <path d="M-11,0 C-11,-12 -5,-15 0,-13 C5,-15 11,-12 11,0 Z" fill="#dfbc86" stroke="#7d592d" stroke-width="1.2" />
+        <path d="M-11,-1 Q0,2 11,-1 L10.5,-4.2 Q0,-1.5 -10.5,-4.2 Z" fill="#3f8f29" />
+      `
+    },
+    {
+      id: 3,
+      unlockAt: 9,
+      name: 'La Toque de Grand Chef',
+      shortName: 'Chef',
+      svg: `
+        <circle cx="-7" cy="-13" r="6.5" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.2" />
+        <circle cx="7" cy="-13" r="6.5" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.2" />
+        <circle cx="0" cy="-16" r="7.8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.2" />
+        <rect x="-10.5" y="-7" width="21" height="8" rx="2" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.2" />
+        <path d="M-4,-7 L-5,-12 M0,-7 L0,-13 M4,-7 L5,-12" stroke="#cbd5e1" stroke-width="1" stroke-linecap="round" />
+      `
+    },
+    {
+      id: 4,
+      unlockAt: 12,
+      name: 'Le Haut-de-Forme Cornichon',
+      shortName: 'Haut-de-Forme',
+      svg: `
+        <ellipse cx="0" cy="1" rx="16" ry="3.6" fill="#1d5c2a" stroke="#0f3818" stroke-width="1.2" />
+        <path d="M-9.5,1 L-11,-18 Q0,-21 11,-18 L9.5,1 Z" fill="#297a3a" stroke="#0f3818" stroke-width="1.2" />
+        <path d="M-9.8,-2.5 Q0,-0.5 9.8,-2.5 L10,-6.5 Q0,-4.5 -10,-6.5 Z" fill="#f5c542" />
+        <ellipse cx="6" cy="-9" rx="2.5" ry="5.2" transform="rotate(18 6 -9)" fill="#6be048" stroke="#1b4f0e" stroke-width="1" />
+      `
+    },
+    {
+      id: 5,
+      unlockAt: 15,
+      name: 'Le Bicorne des Sous-Bois',
+      shortName: 'Pirate',
+      svg: `
+        <path d="M-19,1 Q-12,-16 0,-15 Q12,-16 19,1 Q0,5 -19,1 Z" fill="#2c2523" stroke="#f5c542" stroke-width="1.4" />
+        <path d="M-12,1 Q0,4 12,1 L11,-2 Q0,1 -11,-2 Z" fill="#d93829" />
+        <circle cx="0" cy="-7" r="3.2" fill="#ffd84d" stroke="#8c620a" stroke-width="0.9" />
+      `
+    },
+    {
+      id: 6,
+      unlockAt: 18,
+      name: 'Le Chapeau d’Enchanteur',
+      shortName: 'Magicien',
+      svg: `
+        <ellipse cx="0" cy="1" rx="17.5" ry="3.8" fill="#3b2d7a" stroke="#1f1547" stroke-width="1.2" />
+        <path d="M-10.5,1 C-8,-10 -3,-20 5,-25 C3,-17 7,-10 10.5,1 Z" fill="#4f3da1" stroke="#1f1547" stroke-width="1.2" />
+        <path d="M-10,0 Q0,2 10,0" stroke="#ffd84d" stroke-width="2.2" fill="none" />
+        <circle cx="-2" cy="-8" r="1.8" fill="#ffe159" />
+        <circle cx="3" cy="-14" r="1.4" fill="#ffe159" />
+      `
+    },
+    {
+      id: 7,
+      unlockAt: 21,
+      name: 'La Couronne Royale Cornichon',
+      shortName: 'Couronne',
+      svg: `
+        <ellipse cx="0" cy="-3" rx="10" ry="6" fill="#c92a2a" />
+        <path d="M-11,1 L-12,-12 L-5,-5 L0,-15 L5,-5 L12,-12 L11,1 Q0,4 -11,1 Z" fill="#ffd43b" stroke="#b57c00" stroke-width="1.3" stroke-linejoin="round" />
+        <circle cx="0" cy="-4" r="2.3" fill="#4cd938" stroke="#1d6613" stroke-width="0.7" />
+        <circle cx="-6.5" cy="-3.5" r="1.6" fill="#e03131" />
+        <circle cx="6.5" cy="-3.5" r="1.6" fill="#e03131" />
+        <circle cx="-12" cy="-13" r="1.6" fill="#fff9db" />
+        <circle cx="0" cy="-16" r="1.8" fill="#fff9db" />
+        <circle cx="12" cy="-13" r="1.6" fill="#fff9db" />
+      `
+    }
+  ];
+
   // 10 Truffle spots along the forest trail (x, y)
   const TRAIL_SPOTS = [
     { x: 168, y: 181 },
@@ -69,6 +161,7 @@
       totalTruffles: 0,
       cycleTruffles: 0, // 0..9 (at 10 -> awards Pickle Lollipop and resets to 0)
       pickleLollipops: 0,
+      equippedHat: 0,   // 0 = none, 1..7 = PIG_HATS id
       streak: 0,
       bestStreak: 0
     },
@@ -80,6 +173,7 @@
       factorA: '',
       factorB: '',
       activeSlot: 'A', // 'A' | 'B' for reverse multiplication
+      freshTap: false, // Replaces existing box value if user tapped an already-filled box
       attemptsOnCurrent: 0
     },
     isBusy: false, // Locks input during celebration / transition
@@ -164,6 +258,14 @@
         playTone(n, 'triangle', durs[idx], times[idx], 0.15);
       });
     },
+    hatFanfare() {
+      const notes = [587.33, 739.99, 880, 1174.66, 1479.98, 1760];
+      const times = [0, 0.08, 0.16, 0.25, 0.36, 0.48];
+      const durs = [0.12, 0.12, 0.14, 0.16, 0.18, 0.55];
+      notes.forEach((n, idx) => {
+        playTone(n, 'sine', durs[idx], times[idx], 0.15);
+      });
+    },
     oops() {
       playTone(270, 'sine', 0.12, 0, 0.1, 230);
       playTone(215, 'sine', 0.18, 0.11, 0.1, 185);
@@ -187,11 +289,14 @@
     summaryChipText: document.getElementById('summaryChipText'),
     streakChip: document.getElementById('streakChip'),
     streakCount: document.getElementById('streakCount'),
+    btnOpenWardrobeHud: document.getElementById('btnOpenWardrobeHud'),
+    hatHudText: document.getElementById('hatHudText'),
 
     forestSvgWrap: document.querySelector('.forest-svg-wrap'),
     forestSvg: document.getElementById('forestSvg'),
     trailSpotsGroup: document.getElementById('trailSpotsGroup'),
     pigletMover: document.getElementById('pigletMover'),
+    pigHatSlot: document.getElementById('pigHatSlot'),
     poppedTruffle: document.getElementById('poppedTruffle'),
     truffleSlotsContainer: document.getElementById('truffleSlotsContainer'),
     cycleProgressText: document.getElementById('cycleProgressText'),
@@ -212,10 +317,16 @@
     rewardFlavorName: document.getElementById('rewardFlavorName'),
     rewardTotalPickles: document.getElementById('rewardTotalPickles'),
     rewardDescription: document.getElementById('rewardDescription'),
+    hatUnlockBanner: document.getElementById('hatUnlockBanner'),
+    hatUnlockSvgWrap: document.getElementById('hatUnlockSvgWrap'),
+    hatUnlockTitle: document.getElementById('hatUnlockTitle'),
+    hatUnlockSub: document.getElementById('hatUnlockSub'),
+    hatProgressPill: document.getElementById('hatProgressPill'),
     btnContinueAfterReward: document.getElementById('btnContinueAfterReward'),
 
     collectionModal: document.getElementById('collectionModal'),
     collectionStatsLine: document.getElementById('collectionStatsLine'),
+    hatWardrobeGrid: document.getElementById('hatWardrobeGrid'),
     trophyGrid: document.getElementById('trophyGrid'),
     btnCloseCollection: document.getElementById('btnCloseCollection'),
     btnCloseCollectionMain: document.getElementById('btnCloseCollectionMain'),
@@ -232,6 +343,10 @@
   /* ==========================================================================
      Persistence (localStorage)
      ========================================================================== */
+  function getUnlockedHatsCount() {
+    return Math.min(PIG_HATS.length, Math.floor(state.progress.pickleLollipops / 3));
+  }
+
   function loadState() {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
@@ -259,6 +374,13 @@
         state.progress.pickleLollipops = Math.max(0, Number(parsed.progress.pickleLollipops) || 0);
         state.progress.cycleTruffles = Math.min(9, Math.max(0, Number(parsed.progress.cycleTruffles) || 0));
         state.progress.bestStreak = Math.max(0, Number(parsed.progress.bestStreak) || 0);
+        const maxUnlocked = getUnlockedHatsCount();
+        if (typeof parsed.progress.equippedHat === 'number') {
+          state.progress.equippedHat = Math.min(maxUnlocked, Math.max(0, parsed.progress.equippedHat));
+        } else {
+          // Automatically equip highest earned hat if upgrading from older save
+          state.progress.equippedHat = maxUnlocked;
+        }
       }
     } catch (_) {
       // Ignore storage access issues in private/sandboxed browsing
@@ -273,6 +395,7 @@
           totalTruffles: state.progress.totalTruffles,
           cycleTruffles: state.progress.cycleTruffles,
           pickleLollipops: state.progress.pickleLollipops,
+          equippedHat: state.progress.equippedHat,
           bestStreak: state.progress.bestStreak
         }
       }));
@@ -496,6 +619,7 @@
       factorA: '',
       factorB: '',
       activeSlot: 'A',
+      freshTap: false,
       attemptsOnCurrent: 0
     };
 
@@ -504,6 +628,32 @@
 
     if (state.settings.timerMode === '20' || state.settings.timerMode === '12') {
       startQuestionTimer(Number(state.settings.timerMode) * 1000);
+    }
+  }
+
+  /* ==========================================================================
+     Barnabé Hat System (1 New Hat Every 3 Pickle Lollipops!)
+     ========================================================================== */
+  function renderHatPreviewSvg(hatObj) {
+    return `<svg viewBox="-22 -28 44 33" aria-hidden="true">${hatObj.svg}</svg>`;
+  }
+
+  function syncPigHatUI() {
+    const activeHat = PIG_HATS.find((h) => h.id === state.progress.equippedHat) || null;
+    if (dom.pigHatSlot) {
+      dom.pigHatSlot.innerHTML = activeHat ? activeHat.svg : '';
+    }
+    if (dom.hatHudText) {
+      const count = state.progress.pickleLollipops;
+      const inCycle = count % 3;
+      if (!activeHat && count < 3) {
+        dom.hatHudText.textContent = `🎩 ${inCycle}/3 🍭`;
+      } else if (count < PIG_HATS.length * 3) {
+        const label = activeHat ? activeHat.shortName : 'Chapeaux';
+        dom.hatHudText.textContent = `🎩 ${label} • ${inCycle}/3`;
+      } else {
+        dom.hatHudText.textContent = `🎩 ${activeHat ? activeHat.shortName : '7/7'}`;
+      }
     }
   }
 
@@ -547,6 +697,7 @@
       dom.streakChip.classList.remove('is-visible');
     }
 
+    syncPigHatUI();
     renderTrailSpotsOnSvg();
   }
 
@@ -628,7 +779,7 @@
   }
 
   /* ==========================================================================
-     Equation Display & Input Handling
+     Equation Display & Input Handling (Multi-digit friendly in ALL boxes!)
      ========================================================================== */
   function renderProblem(statusClass = '') {
     const p = state.problem;
@@ -641,9 +792,7 @@
       dom.opTypeBadge.textContent = '✖️ Multiplication';
       dom.opTypeBadge.className = 'op-type-tag';
     } else {
-      dom.opTypeBadge.textContent = p.singleDigitOnly
-        ? '🔄 Facteurs (2 à 9)'
-        : '🔄 Facteurs (2 à 99)';
+      dom.opTypeBadge.textContent = '🔄 Trouve 2 facteurs (≥ 2)';
       dom.opTypeBadge.className = 'op-type-tag op-type-tag--reverse';
     }
 
@@ -666,6 +815,12 @@
           ${val === '' ? '?' : val}
         </button>
       `;
+
+      document.getElementById('slotSingle').addEventListener('click', () => {
+        if (state.isBusy) return;
+        state.input.freshTap = state.input.single.length > 0;
+        sfx.switchSlot();
+      });
     } else {
       // Reverse Multiplication: [ ? ] × [ ? ] = Product
       const valA = state.input.factorA;
@@ -687,7 +842,7 @@
         <button type="button" class="${classA}" id="slotFactorA" aria-label="Premier facteur">
           ${valA === '' ? '?' : valA}
         </button>
-        <span class="eq-operator">×</span>
+        <span id="opMultiplySwitch" class="eq-operator eq-operator--clickable" title="Passer à l'autre case">×</span>
         <button type="button" class="${classB}" id="slotFactorB" aria-label="Deuxième facteur">
           ${valB === '' ? '?' : valB}
         </button>
@@ -698,6 +853,7 @@
       document.getElementById('slotFactorA').addEventListener('click', () => {
         if (state.isBusy) return;
         state.input.activeSlot = 'A';
+        state.input.freshTap = state.input.factorA.length > 0;
         sfx.switchSlot();
         renderProblem();
         updateSubmitKeyAppearance();
@@ -706,6 +862,17 @@
       document.getElementById('slotFactorB').addEventListener('click', () => {
         if (state.isBusy) return;
         state.input.activeSlot = 'B';
+        state.input.freshTap = state.input.factorB.length > 0;
+        sfx.switchSlot();
+        renderProblem();
+        updateSubmitKeyAppearance();
+      });
+
+      document.getElementById('opMultiplySwitch').addEventListener('click', () => {
+        if (state.isBusy) return;
+        state.input.activeSlot = state.input.activeSlot === 'A' ? 'B' : 'A';
+        const targetVal = state.input.activeSlot === 'A' ? state.input.factorA : state.input.factorB;
+        state.input.freshTap = targetVal.length > 0;
         sfx.switchSlot();
         renderProblem();
         updateSubmitKeyAppearance();
@@ -740,38 +907,33 @@
     sfx.tap();
 
     if (p.op === 'add' || p.op === 'mul') {
-      if (state.input.single.length >= 4) return;
-      // Avoid leading zero unless number is 0
-      if (state.input.single === '0') {
-        state.input.single = digitStr;
-      } else {
-        state.input.single += digitStr;
+      if (state.input.freshTap) {
+        state.input.single = '';
+        state.input.freshTap = false;
       }
+      if (state.input.single.length >= 4) return;
+      state.input.single = state.input.single === '0' ? digitStr : state.input.single + digitStr;
       renderProblem();
       return;
     }
 
-    // Reverse Multiplication
-    const maxLen = p.singleDigitOnly ? 1 : 2;
+    // Reverse Multiplication: ALWAYS allow 1, 2, or 3 digits in BOTH factor boxes!
+    // Focus stays in the active box until the user taps the other box or presses "× Suiv. ⇥".
+    const maxFactorDigits = 3;
     if (state.input.activeSlot === 'A') {
-      if (p.singleDigitOnly) {
-        state.input.factorA = digitStr;
-        // Automatically advance to factor B for effortless 1-digit entry
-        state.input.activeSlot = 'B';
-      } else {
-        if (state.input.factorA.length >= maxLen) return;
-        state.input.factorA = state.input.factorA === '0' ? digitStr : state.input.factorA + digitStr;
-        if (state.input.factorA.length === maxLen && state.input.factorB === '') {
-          state.input.activeSlot = 'B';
-        }
+      if (state.input.freshTap) {
+        state.input.factorA = '';
+        state.input.freshTap = false;
       }
+      if (state.input.factorA.length >= maxFactorDigits) return;
+      state.input.factorA = state.input.factorA === '0' ? digitStr : state.input.factorA + digitStr;
     } else {
-      if (p.singleDigitOnly) {
-        state.input.factorB = digitStr;
-      } else {
-        if (state.input.factorB.length >= maxLen) return;
-        state.input.factorB = state.input.factorB === '0' ? digitStr : state.input.factorB + digitStr;
+      if (state.input.freshTap) {
+        state.input.factorB = '';
+        state.input.freshTap = false;
       }
+      if (state.input.factorB.length >= maxFactorDigits) return;
+      state.input.factorB = state.input.factorB === '0' ? digitStr : state.input.factorB + digitStr;
     }
 
     renderProblem();
@@ -784,6 +946,7 @@
     if (!p) return;
 
     sfx.erase();
+    state.input.freshTap = false;
 
     if (p.op === 'add' || p.op === 'mul') {
       state.input.single = state.input.single.slice(0, -1);
@@ -811,6 +974,8 @@
     const p = state.problem;
     if (!p) return;
 
+    state.input.freshTap = false;
+
     if (p.op === 'add' || p.op === 'mul') {
       if (state.input.single === '') {
         setFeedback('Entre un nombre avec le clavier !', 'hint');
@@ -825,7 +990,7 @@
       return;
     }
 
-    // Reverse Multiplication
+    // Reverse Multiplication: if user typed factor A and factor B is still empty, move to factor B!
     if (state.input.activeSlot === 'A' && state.input.factorA !== '' && state.input.factorB === '') {
       state.input.activeSlot = 'B';
       sfx.switchSlot();
@@ -857,12 +1022,6 @@
         renderProblem();
         updateSubmitKeyAppearance();
       }, 520);
-      return;
-    }
-
-    if (p.singleDigitOnly && (a > 9 || b > 9)) {
-      sfx.oops();
-      setFeedback('Choisis deux facteurs d’un seul chiffre (2 à 9) !', 'hint');
       return;
     }
 
@@ -919,12 +1078,24 @@
       if (wonPickleLollipop) {
         state.progress.pickleLollipops += 1;
         state.progress.cycleTruffles = 0;
+
+        // Every 3 Pickle Lollipops -> Barnabé unlocks & equips a brand new hat!
+        let newlyUnlockedHat = null;
+        if (state.progress.pickleLollipops % 3 === 0) {
+          const hatIdx = (Math.floor(state.progress.pickleLollipops / 3) - 1) % PIG_HATS.length;
+          newlyUnlockedHat = PIG_HATS[hatIdx];
+          state.progress.equippedHat = newlyUnlockedHat.id;
+        }
+        syncPigHatUI();
         saveState();
 
         setTimeout(() => {
           dom.pickleLollipopsCount.textContent = String(state.progress.pickleLollipops);
           bumpElement(dom.btnOpenCollection);
-          openPickleRewardCelebration();
+          if (newlyUnlockedHat && dom.btnOpenWardrobeHud) {
+            bumpElement(dom.btnOpenWardrobeHud);
+          }
+          openPickleRewardCelebration(newlyUnlockedHat);
         }, 720);
       } else {
         saveState();
@@ -961,6 +1132,7 @@
         state.input.factorA = '';
         state.input.factorB = '';
         state.input.activeSlot = 'A';
+        state.input.freshTap = false;
         setPigState('sniff');
         state.isBusy = false;
         renderProblem();
@@ -982,8 +1154,11 @@
   /* ==========================================================================
      10-Truffle Pickle Lollipop Celebration & Confetti Engine
      ========================================================================== */
-  function openPickleRewardCelebration() {
+  function openPickleRewardCelebration(newlyUnlockedHat = null) {
     sfx.pickleFanfare();
+    if (newlyUnlockedHat) {
+      setTimeout(() => sfx.hatFanfare(), 350);
+    }
     launchConfetti();
 
     const count = state.progress.pickleLollipops;
@@ -992,6 +1167,20 @@
 
     dom.rewardFlavorName.textContent = `${flavor.name}${prestigeSuffix}`;
     dom.rewardDescription.innerHTML = `${flavor.desc}<br>Tu as maintenant <strong>${count}</strong> sucette${count > 1 ? 's' : ''} au cornichon !`;
+
+    if (newlyUnlockedHat) {
+      dom.hatUnlockSvgWrap.innerHTML = renderHatPreviewSvg(newlyUnlockedHat);
+      dom.hatUnlockTitle.textContent = `🎩 Nouveau chapeau : ${newlyUnlockedHat.name} !`;
+      dom.hatUnlockSub.textContent = '3 sucettes gagnées ! Barnabé le porte dès maintenant !';
+      dom.hatUnlockBanner.classList.add('is-visible');
+      dom.hatProgressPill.style.display = 'none';
+    } else {
+      dom.hatUnlockBanner.classList.remove('is-visible');
+      const rem = 3 - (count % 3);
+      dom.hatProgressPill.style.display = 'inline-flex';
+      dom.hatProgressPill.textContent = `🎩 Nouveau chapeau dans ${rem} sucette${rem > 1 ? 's' : ''} (${count % 3}/3)`;
+    }
+
     dom.pickleRewardModal.classList.add('is-open');
   }
 
@@ -1242,9 +1431,49 @@
   }
 
   function openCollectionModal() {
-    const { totalTruffles, pickleLollipops, bestStreak } = state.progress;
-    dom.collectionStatsLine.textContent = `${totalTruffles} truffe${totalTruffles > 1 ? 's' : ''} au total • ${pickleLollipops} sucette${pickleLollipops > 1 ? 's' : ''} • Meilleure série : ${bestStreak}`;
+    const { totalTruffles, pickleLollipops, equippedHat, bestStreak } = state.progress;
+    const unlockedHats = getUnlockedHatsCount();
+    dom.collectionStatsLine.textContent = `${totalTruffles} truffe${totalTruffles > 1 ? 's' : ''} • ${pickleLollipops} sucette${pickleLollipops > 1 ? 's' : ''} • ${unlockedHats} chapeau${unlockedHats > 1 ? 'x' : ''} • Série max : ${bestStreak}`;
 
+    // Render Barnabé's Hat Wardrobe (1 hat unlocked every 3 lollipops!)
+    const hatCardsHtml = [];
+    if (unlockedHats > 0) {
+      const bareSelected = equippedHat === 0;
+      hatCardsHtml.push(`
+        <button type="button" class="trophy-item trophy-item--hat ${bareSelected ? 'trophy-item--equipped' : ''}" data-hat-id="0">
+          <div class="hat-preview-wrap" style="font-size:1.75rem;" aria-hidden="true">🐽</div>
+          <div class="trophy-item-title">Tête nue</div>
+          ${bareSelected ? '<span class="trophy-item-badge">Porté ✓</span>' : ''}
+        </button>
+      `);
+    }
+
+    PIG_HATS.forEach((hat) => {
+      const isUnlocked = pickleLollipops >= hat.unlockAt;
+      const isEquipped = isUnlocked && equippedHat === hat.id;
+      hatCardsHtml.push(`
+        <button type="button" class="trophy-item trophy-item--hat ${isUnlocked ? '' : 'is-locked'} ${isEquipped ? 'trophy-item--equipped' : ''}" data-hat-id="${hat.id}" ${isUnlocked ? '' : 'disabled'}>
+          <div class="hat-preview-wrap">${isUnlocked ? renderHatPreviewSvg(hat) : '<span style="font-size:1.6rem;">🔒</span>'}</div>
+          <div class="trophy-item-title">${isUnlocked ? hat.name : `À ${hat.unlockAt} sucettes`}</div>
+          ${isEquipped ? '<span class="trophy-item-badge">Porté ✓</span>' : ''}
+        </button>
+      `);
+    });
+    dom.hatWardrobeGrid.innerHTML = hatCardsHtml.join('');
+
+    dom.hatWardrobeGrid.querySelectorAll('[data-hat-id]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const chosenId = Number(btn.dataset.hatId);
+        if (chosenId > 0 && state.progress.pickleLollipops < chosenId * 3) return;
+        state.progress.equippedHat = chosenId;
+        sfx.switchSlot();
+        syncPigHatUI();
+        saveState();
+        openCollectionModal();
+      });
+    });
+
+    // Render Pickle Lollipops Collection
     const totalCards = Math.max(4, Math.min(PICKLE_FLAVORS.length, pickleLollipops + 2));
     dom.trophyGrid.innerHTML = PICKLE_FLAVORS.slice(0, totalCards).map((item, idx) => {
       const unlocked = idx < pickleLollipops;
@@ -1308,6 +1537,8 @@
         state.input.activeSlot = e.key === 'ArrowLeft'
           ? 'A'
           : (state.input.activeSlot === 'A' ? 'B' : 'A');
+        const targetVal = state.input.activeSlot === 'A' ? state.input.factorA : state.input.factorB;
+        state.input.freshTap = targetVal.length > 0;
         sfx.switchSlot();
         renderProblem();
         updateSubmitKeyAppearance();
@@ -1400,7 +1631,7 @@
       });
     });
 
-    // Modals: Reward, Collection, Sprint
+    // Modals: Reward, Collection & Wardrobe, Sprint
     dom.btnContinueAfterReward.addEventListener('click', () => {
       sfx.tap();
       closePickleRewardAndContinue();
@@ -1414,6 +1645,12 @@
       sfx.tap();
       openCollectionModal();
     });
+    if (dom.btnOpenWardrobeHud) {
+      dom.btnOpenWardrobeHud.addEventListener('click', () => {
+        sfx.tap();
+        openCollectionModal();
+      });
+    }
     dom.btnCloseCollection.addEventListener('click', () => {
       dom.collectionModal.classList.remove('is-open');
     });
@@ -1426,6 +1663,7 @@
         totalTruffles: 0,
         cycleTruffles: 0,
         pickleLollipops: 0,
+        equippedHat: 0,
         streak: 0,
         bestStreak: 0
       };

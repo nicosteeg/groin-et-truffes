@@ -301,6 +301,31 @@ html, body {
   transform: scale(1);
 }
 
+.stage-hud-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hat-hud-chip {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 9px;
+  border-radius: var(--radius-pill);
+  background: hsla(45, 92%, 95%, 0.92);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid hsla(38, 65%, 66%, 0.75);
+  font-family: inherit;
+  font-size: 0.74rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: hsl(28, 68%, 28%);
+  cursor: pointer;
+}
+
 /* 10-Truffle Progress Bar toward Pickle Lollipop */
 .truffle-track-bar {
   display: flex;
@@ -969,12 +994,83 @@ html, body {
   line-height: 1.4;
 }
 
-/* Collection Grid */
+.eq-operator--clickable {
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+.eq-operator--clickable:active {
+  transform: scale(0.92);
+  background: var(--oak-100);
+}
+
+.hat-unlock-banner {
+  display: none;
+  margin: 0 0 14px;
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, hsl(45, 96%, 93%), hsl(38, 92%, 88%));
+  border: 2px solid hsl(39, 82%, 56%);
+  box-shadow: 0 3px 10px hsla(36, 75%, 35%, 0.12);
+  text-align: center;
+  animation: lollipopReveal 0.65s cubic-bezier(0.28, 1.45, 0.5, 1);
+}
+
+.hat-unlock-banner.is-visible {
+  display: block;
+}
+
+.hat-unlock-svg {
+  width: 78px;
+  height: 58px;
+  margin: 2px auto 4px;
+}
+
+.hat-unlock-title {
+  margin: 0;
+  font-size: 0.88rem;
+  font-weight: 900;
+  color: hsl(26, 78%, 28%);
+}
+
+.hat-unlock-sub {
+  margin: 2px 0 0;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: hsl(28, 48%, 34%);
+}
+
+.hat-progress-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin: 0 0 14px;
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+  background: hsl(42, 55%, 93%);
+  border: 1.5px solid hsl(36, 35%, 80%);
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--ink-body);
+}
+
+.section-subtitle {
+  margin: 12px 0 8px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ink-muted);
+}
+
+/* Collection & Hat Wardrobe Grids */
 .trophy-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(135px, 1fr));
   gap: 10px;
-  margin: 12px 0 16px;
+  margin: 8px 0 16px;
 }
 
 .trophy-item {
@@ -985,9 +1081,40 @@ html, body {
   text-align: center;
 }
 
+.trophy-item--hat {
+  cursor: pointer;
+  font-family: inherit;
+  transition: transform 0.12s ease, border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.trophy-item--hat:not(.is-locked):active {
+  transform: scale(0.96);
+}
+
+.trophy-item--equipped {
+  background: var(--moss-100);
+  border: 2px solid var(--moss-500);
+  box-shadow: 0 2px 0 hsla(142, 48%, 35%, 0.25);
+}
+
 .trophy-item.is-locked {
   opacity: 0.5;
   filter: grayscale(0.85);
+  cursor: default;
+}
+
+.hat-preview-wrap {
+  width: 64px;
+  height: 46px;
+  margin: 0 auto 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hat-preview-wrap svg {
+  width: 100%;
+  height: 100%;
 }
 
 .trophy-item-title {
@@ -995,6 +1122,17 @@ html, body {
   font-weight: 800;
   margin-top: 4px;
   color: var(--ink-strong);
+}
+
+.trophy-item-badge {
+  display: inline-block;
+  margin-top: 4px;
+  padding: 1px 7px;
+  border-radius: var(--radius-pill);
+  font-size: 0.68rem;
+  font-weight: 800;
+  background: var(--moss-500);
+  color: #ffffff;
 }
 
 .secondary-reset-btn {
