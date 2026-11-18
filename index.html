@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>Groin &amp; Truffes — Calcul Mental (Additions, Multiplications &amp; Facteurs)</title>
+  <meta name="description" content="Application ludique de calcul mental adaptée iPhone et iPad : additions, multiplications et multiplications inversées avec Barnabé le petit cochon chercheur de truffes et ses sucettes au cornichon !" />
+  <meta name="theme-color" content="#f6efe4" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Groin &amp; Truffes" />
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'%3E%3Crect width='128' height='128' rx='28' fill='%23488f5a'/%3E%3Ccircle cx='64' cy='68' r='40' fill='%23ff9eb5'/%3E%3Cellipse cx='40' cy='38' rx='13' ry='18' transform='rotate(-24 40 38)' fill='%23f47c98'/%3E%3Cellipse cx='88' cy='38' rx='13' ry='18' transform='rotate(24 88 38)' fill='%23f47c98'/%3E%3Cellipse cx='64' cy='76' rx='20' ry='14' fill='%23ff7597'/%3E%3Ccircle cx='57' cy='76' r='4' fill='%236e2438'/%3E%3Ccircle cx='71' cy='76' r='4' fill='%236e2438'/%3E%3Ccircle cx='48' cy='56' r='5' fill='%232b1b17'/%3E%3Ccircle cx='80' cy='56' r='5' fill='%232b1b17'/%3E%3C/svg%3E" />
+  <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png" />
+  <link rel="stylesheet" href="./index.css" />
+</head>
+<body>
+  <canvas id="confettiCanvas" class="confetti-layer" aria-hidden="true"></canvas>
+
+  <div class="app-shell">
+    <!-- Top Header Bar -->
+    <header class="top-bar">
+      <div class="brand-cluster">
+        <h1 class="app-title">🐽 Groin &amp; Truffes</h1>
+      </div>
+
+      <div class="score-pills" role="status" aria-live="polite">
+        <button id="btnTruffleStats" type="button" class="stat-pill" title="Total de truffes déterrées">
+          <span aria-hidden="true">🍄</span>
+          <span id="totalTrufflesCount">0</span>
+        </button>
+        <button id="btnOpenCollection" type="button" class="stat-pill stat-pill--pickle" title="Voir ma collection de sucettes au cornichon">
+          <span aria-hidden="true">🥒🍭</span>
+          <span id="pickleLollipopsCount">0</span>
+        </button>
+      </div>
+
+      <div class="top-actions">
+        <button id="btnToggleTimerQuick" type="button" class="icon-btn" aria-label="Activer ou désactiver le chronomètre" title="Chronomètre">
+          <span aria-hidden="true">⏱️</span>
+          <span id="quickTimerLabel" class="btn-label-desktop">Sans chrono</span>
+        </button>
+        <button id="btnToggleSound" type="button" class="icon-btn" aria-label="Activer ou couper les sons" title="Sons">
+          <span id="soundIcon" aria-hidden="true">🔊</span>
+        </button>
+        <button id="btnOpenSettings" type="button" class="icon-btn" aria-label="Ouvrir les réglages de difficulté et d'opérations" title="Réglages">
+          <span aria-hidden="true">⚙️</span>
+          <span class="btn-label-desktop">Réglages</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Workspace Grid -->
+    <main class="workspace-grid">
+      <!-- Left / Top Column: Animated Woodland Scene & 10-Truffle Trail -->
+      <section class="scene-column" aria-label="Clairière aux truffes de Barnabé">
+        <div class="forest-card">
+          <div class="forest-svg-wrap">
+            <!-- Illustrated Périgord Oak Clearing & Barnabé Character Rig -->
+            <svg id="forestSvg" class="forest-svg" viewBox="0 0 640 220" preserveAspectRatio="xMidYMax slice" role="img" aria-label="Barnabé le petit cochon cherche des truffes sous les chênes">
+              <defs>
+                <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#bce6f7" />
+                  <stop offset="100%" stop-color="#e8f7ee" />
+                </linearGradient>
+                <linearGradient id="meadowBack" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#9ad17b" />
+                  <stop offset="100%" stop-color="#74b559" />
+                </linearGradient>
+                <linearGradient id="meadowFront" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#7ec25d" />
+                  <stop offset="100%" stop-color="#53963c" />
+                </linearGradient>
+                <linearGradient id="trailSoil" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#c99e70" />
+                  <stop offset="100%" stop-color="#a87c4f" />
+                </linearGradient>
+                <radialGradient id="pigBodyGrad" cx="42%" cy="35%" r="65%">
+                  <stop offset="0%" stop-color="#ffc1d0" />
+                  <stop offset="65%" stop-color="#ff96b0" />
+                  <stop offset="100%" stop-color="#eb7593" />
+                </radialGradient>
+                <radialGradient id="truffleGrad" cx="35%" cy="30%" r="70%">
+                  <stop offset="0%" stop-color="#6e4f3a" />
+                  <stop offset="55%" stop-color="#3c281c" />
+                  <stop offset="100%" stop-color="#21140d" />
+                </radialGradient>
+              </defs>
+
+              <!-- Sky -->
+              <rect width="640" height="220" fill="url(#skyGrad)" />
+
+              <!-- Sunbeams & Sun -->
+              <circle cx="88" cy="44" r="24" fill="#fff5ba" opacity="0.85" />
+              <circle cx="88" cy="44" r="16" fill="#ffe47a" />
+
+              <!-- Drifting Clouds -->
+              <g class="cloud-drift-slow" opacity="0.88" fill="#ffffff">
+                <g transform="translate(155, 34)">
+                  <ellipse cx="0" cy="6" rx="22" ry="10" />
+                  <circle cx="-8" cy="0" r="11" />
+                  <circle cx="8" cy="-2" r="13" />
+                </g>
+                <g transform="translate(390, 28) scale(0.85)">
+                  <ellipse cx="0" cy="6" rx="26" ry="11" />
+                  <circle cx="-10" cy="-1" r="12" />
+                  <circle cx="9" cy="-3" r="14" />
+                </g>
+              </g>
+
+              <!-- Distant Woodland Hills & Bushes -->
+              <path d="M-20,145 Q110,98 250,132 T520,122 T660,140 L660,220 L-20,220 Z" fill="url(#meadowBack)" />
+              <g fill="#5e9f47" opacity="0.65">
+                <circle cx="42" cy="130" r="22" />
+                <circle cx="66" cy="134" r="16" />
+                <circle cx="290" cy="126" r="18" />
+                <circle cx="312" cy="130" r="14" />
+              </g>
+
+              <!-- Foreground Meadow -->
+              <path d="M-20,152 Q180,136 355,148 T660,144 L660,220 L-20,220 Z" fill="url(#meadowFront)" />
+
+              <!-- Grand Truffle Oak Tree (Chêne Truffier) on the Right -->
+              <g id="truffleOakTree">
+                <!-- Trunk & Roots -->
+                <path d="M542,162 C546,132 548,98 544,72 L574,72 C570,102 573,134 586,164 C572,166 552,166 542,162 Z" fill="#7c5333" />
+                <path d="M554,75 C556,105 555,132 549,160" stroke="#5d3c22" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.6" />
+                <!-- Canopy -->
+                <g class="oak-canopy-sway">
+                  <circle cx="524" cy="68" r="34" fill="#478c38" />
+                  <circle cx="590" cy="70" r="32" fill="#3f8031" />
+                  <circle cx="558" cy="44" r="40" fill="#549e42" />
+                  <circle cx="542" cy="56" r="26" fill="#68b353" opacity="0.7" />
+                  <!-- Cute Acorns -->
+                  <g transform="translate(514, 88)">
+                    <ellipse cx="0" cy="4" rx="4.5" ry="5.5" fill="#c78846" />
+                    <path d="M-5.5,2 Q0,-3 5.5,2 Z" fill="#6b4423" />
+                  </g>
+                  <g transform="translate(585, 86)">
+                    <ellipse cx="0" cy="4" rx="4.5" ry="5.5" fill="#c78846" />
+                    <path d="M-5.5,2 Q0,-3 5.5,2 Z" fill="#6b4423" />
+                  </g>
+                </g>
+              </g>
+
+              <!-- Winding Earthy Truffle Trail -->
+              <path d="M36,184 Q185,172 325,181 T588,176" stroke="url(#trailSoil)" stroke-width="26" stroke-linecap="round" fill="none" />
+              <path d="M36,184 Q185,172 325,181 T588,176" stroke="#dfc09a" stroke-width="18" stroke-linecap="round" stroke-dasharray="2 14" fill="none" opacity="0.4" />
+
+              <!-- Dynamic 10 Truffle Mounds along the Path -->
+              <g id="trailSpotsGroup"></g>
+
+              <!-- Barnabé le Petit Cochon Truffier -->
+              <g id="pigletMover" class="pig-state-sniff" transform="translate(76, 174)">
+                <!-- Soft Ground Shadow -->
+                <ellipse cx="2" cy="14" rx="30" ry="7" fill="#2d4f21" opacity="0.28" />
+
+                <!-- Digging Dirt Particles -->
+                <g id="dirtParticles" fill="#6e472b">
+                  <circle class="dirt-speck" cx="34" cy="10" r="2.8" opacity="0" />
+                  <circle class="dirt-speck" cx="40" cy="6" r="2.1" opacity="0" style="animation-delay:0.08s" />
+                  <circle class="dirt-speck" cx="29" cy="5" r="2.4" opacity="0" style="animation-delay:0.16s" />
+                </g>
+
+                <!-- Popped Truffle Reward Sprite -->
+                <g id="poppedTruffle" transform="translate(42, 4)">
+                  <path d="M-11,-2 C-13,-9 -5,-14 2,-13 C9,-14 14,-8 12,-1 C14,6 7,11 0,10 C-8,11 -13,5 -11,-2 Z" fill="url(#truffleGrad)" stroke="#1f120b" stroke-width="1.5" />
+                  <circle cx="-3" cy="-5" r="1.8" fill="#8b684f" opacity="0.7" />
+                  <circle cx="4" cy="-2" r="1.5" fill="#8b684f" opacity="0.6" />
+                  <circle cx="-1" cy="3" r="1.6" fill="#8b684f" opacity="0.6" />
+                  <text x="0" y="-17" text-anchor="middle" fill="#ffdf4d" stroke="#5c3809" stroke-width="2.5" paint-order="stroke" font-size="13" font-weight="900">+1</text>
+                </g>
+
+                <!-- Animated Piglet Body Group -->
+                <g id="pigBodyGroup">
+                  <!-- Corkscrew Tail -->
+                  <path id="pigTail" d="M-26,-18 C-36,-22 -38,-32 -31,-32 C-27,-32 -28,-25 -34,-25 C-39,-25 -40,-34 -35,-38" fill="none" stroke="#f07b98" stroke-width="3.6" stroke-linecap="round" />
+
+                  <!-- Far Legs -->
+                  <g id="legBackFar">
+                    <rect x="-15" y="-3" width="8" height="15" rx="4" fill="#e06d8a" />
+                    <path d="M-15,9 L-7,9 L-7,13 Q-11,14 -15,13 Z" fill="#4f3224" />
+                  </g>
+                  <g id="legFrontFar">
+                    <rect x="13" y="-3" width="8" height="15" rx="4" fill="#e06d8a" />
+                    <path d="M13,9 L21,9 L21,13 Q17,14 13,13 Z" fill="#4f3224" />
+                  </g>
+
+                  <!-- Plump Body -->
+                  <ellipse cx="-2" cy="-14" rx="28" ry="20" fill="url(#pigBodyGrad)" stroke="#d96582" stroke-width="1.4" />
+                  <!-- Soft Belly Highlight -->
+                  <ellipse cx="0" cy="-7" rx="18" ry="9" fill="#ffdbe4" opacity="0.6" />
+
+                  <!-- Périgord Red Truffle-Hunter Bandana -->
+                  <path d="M11,-27 C17,-15 16,-4 9,1 L20,-4 L16,-25 Z" fill="#d93829" stroke="#9e2116" stroke-width="1" />
+                  <circle cx="15" cy="-12" r="1.4" fill="#fff6eb" />
+                  <circle cx="14" cy="-19" r="1.3" fill="#fff6eb" />
+
+                  <!-- Near Legs -->
+                  <g id="legBackNear">
+                    <rect x="-21" y="-2" width="8.5" height="16" rx="4.2" fill="#ff9bb3" stroke="#d96582" stroke-width="1" />
+                    <path d="M-21,10 L-12.5,10 L-12.5,14 Q-16.8,15 -21,14 Z" fill="#4a2e20" />
+                  </g>
+                  <g id="legFrontNear">
+                    <rect x="7" y="-2" width="8.5" height="16" rx="4.2" fill="#ff9bb3" stroke="#d96582" stroke-width="1" />
+                    <path d="M7,10 L15.5,10 L15.5,14 Q11.2,15 7,14 Z" fill="#4a2e20" />
+                  </g>
+
+                  <!-- Expressive Head Rig -->
+                  <g id="pigHeadGroup">
+                    <!-- Back Ear -->
+                    <ellipse cx="29" cy="-35" rx="6.5" ry="10" transform="rotate(22 29 -35)" fill="#e5708d" />
+
+                    <!-- Head Sphere -->
+                    <circle cx="24" cy="-21" r="16.5" fill="url(#pigBodyGrad)" stroke="#d96582" stroke-width="1.3" />
+
+                    <!-- Warm Smile -->
+                    <path d="M26,-12 Q31,-8 35,-12" fill="none" stroke="#8c2f47" stroke-width="1.8" stroke-linecap="round" />
+
+                    <!-- Rosy Cheek Blush -->
+                    <circle id="cheekBlush" cx="24" cy="-15" r="4.2" fill="#ff5c82" opacity="0.45" />
+
+                    <!-- Eyes: Normal -->
+                    <g id="eyesNormal">
+                      <circle cx="30" cy="-23" r="3.1" fill="#291714" />
+                      <circle cx="31.1" cy="-24.1" r="1.1" fill="#ffffff" />
+                    </g>
+
+                    <!-- Eyes: Happy (^ ^) -->
+                    <g id="eyesHappy">
+                      <path d="M26.5,-22 Q30,-27 33.5,-22" fill="none" stroke="#291714" stroke-width="2.4" stroke-linecap="round" />
+                    </g>
+
+                    <!-- Eyes: Oops -->
+                    <g id="eyesOops">
+                      <circle cx="30" cy="-23" r="3.6" fill="#ffffff" stroke="#291714" stroke-width="1.5" />
+                      <circle cx="30.5" cy="-23" r="1.5" fill="#291714" />
+                    </g>
+
+                    <!-- Wiggling Snout (Groin) -->
+                    <g id="pigSnout">
+                      <ellipse cx="41" cy="-17" rx="7.5" ry="6" transform="rotate(8 41 -17)" fill="#ff7898" stroke="#cc4f6e" stroke-width="1.3" />
+                      <ellipse cx="39.5" cy="-17.5" rx="1.5" ry="2.5" transform="rotate(8 39.5 -17.5)" fill="#6b1d31" />
+                      <ellipse cx="43.5" cy="-16.5" rx="1.5" ry="2.5" transform="rotate(8 43.5 -16.5)" fill="#6b1d31" />
+                    </g>
+
+                    <!-- Floppy Front Ear -->
+                    <g id="pigEarFront">
+                      <ellipse cx="18" cy="-35" rx="7" ry="11" transform="rotate(-18 18 -35)" fill="#ff9eb5" stroke="#d96582" stroke-width="1.2" />
+                      <ellipse cx="18.5" cy="-34.5" rx="3.8" ry="6.5" transform="rotate(-18 18.5 -34.5)" fill="#f26d8d" opacity="0.75" />
+                    </g>
+
+                    <!-- Sniff Scent Puffs -->
+                    <circle class="sniff-puff" cx="50" cy="-12" r="2.6" fill="#ffffff" opacity="0" />
+                    <circle class="sniff-puff sniff-puff--2" cx="54" cy="-9" r="2" fill="#ffffff" opacity="0" />
+                  </g>
+                </g>
+              </g>
+
+              <!-- Foreground Little Grass Tufts & Mushrooms -->
+              <g>
+                <path d="M22,212 L18,200 M25,212 L25,198 M28,212 L32,202" stroke="#3c7a29" stroke-width="2.2" stroke-linecap="round" />
+                <path d="M472,214 L468,203 M475,214 L476,200 M479,214 L483,204" stroke="#3c7a29" stroke-width="2.2" stroke-linecap="round" />
+                <!-- Little Red Woodland Mushroom -->
+                <g transform="translate(608, 198)">
+                  <rect x="-3" y="0" width="6" height="9" rx="2.5" fill="#f7ebd9" />
+                  <path d="M-10,2 Q0,-10 10,2 Z" fill="#d94536" />
+                  <circle cx="-3" cy="-2" r="1.4" fill="#ffffff" />
+                  <circle cx="3" cy="-1" r="1.2" fill="#ffffff" />
+                </g>
+              </g>
+            </svg>
+
+            <!-- HUD Overlay inside Scene -->
+            <div class="stage-hud">
+              <button id="btnStageSummary" type="button" class="mode-summary-chip" title="Modifier le mode de jeu">
+                <span id="summaryChipText">➕ ✖️ 🔄 • 1 ch. • Moyen</span>
+              </button>
+              <div id="streakChip" class="streak-chip" aria-live="polite">
+                🔥 Série <span id="streakCount">0</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 10-Truffle Basket Track toward the Pickle Lollipop -->
+          <div class="truffle-track-bar" aria-label="Progression vers la sucette au cornichon">
+            <div id="truffleSlotsContainer" class="truffle-slots">
+              <!-- Populated by JS with 10 crisp SVG truffle slots -->
+            </div>
+            <div class="lollipop-goal-badge" title="10 truffes = 1 Sucette au Cornichon !">
+              <span id="cycleProgressText">0/10</span>
+              <span aria-hidden="true">🥒🍭</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right / Bottom Column: Question Card & Tactile Keypad -->
+      <section class="play-column" aria-label="Zone de calcul">
+        <div class="question-card">
+          <div id="timerStrip" class="timer-strip" aria-hidden="true">
+            <div id="timerStripFill" class="timer-strip-fill"></div>
+          </div>
+
+          <div class="question-meta">
+            <span id="opTypeBadge" class="op-type-tag">Multiplication</span>
+            <span id="timerReadout" class="timer-readout" aria-live="off"></span>
+          </div>
+
+          <!-- Dynamic Equation Container -->
+          <div id="equationRow" class="equation-row" role="group" aria-label="Équation à résoudre">
+            <!-- Rendered dynamically for standard vs reverse multiplication -->
+          </div>
+
+          <div id="feedbackBanner" class="feedback-banner" role="status" aria-live="polite">
+            Sniff sniff… aide Barnabé à déterrer une truffe !
+          </div>
+        </div>
+
+        <!-- Custom Tactile Numeric Keypad -->
+        <div class="keypad-grid" role="group" aria-label="Clavier numérique">
+          <button type="button" class="key-btn" data-key="1" id="key1">1</button>
+          <button type="button" class="key-btn" data-key="2" id="key2">2</button>
+          <button type="button" class="key-btn" data-key="3" id="key3">3</button>
+          <button type="button" class="key-btn" data-key="4" id="key4">4</button>
+          <button type="button" class="key-btn" data-key="5" id="key5">5</button>
+          <button type="button" class="key-btn" data-key="6" id="key6">6</button>
+          <button type="button" class="key-btn" data-key="7" id="key7">7</button>
+          <button type="button" class="key-btn" data-key="8" id="key8">8</button>
+          <button type="button" class="key-btn" data-key="9" id="key9">9</button>
+          <button type="button" class="key-btn key-btn--erase" data-key="BACKSPACE" id="keyErase" aria-label="Effacer">⌫</button>
+          <button type="button" class="key-btn" data-key="0" id="key0">0</button>
+          <button type="button" class="key-btn key-btn--submit" data-key="SUBMIT" id="keySubmit">OK ✓</button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Settings Modal / Bottom Sheet -->
+  <div id="settingsModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+    <div class="sheet-card">
+      <div class="sheet-header">
+        <h2 id="settingsTitle" class="sheet-title">⚙️ Réglages du jeu</h2>
+        <button id="btnCloseSettings" type="button" class="close-btn" aria-label="Fermer">✕</button>
+      </div>
+
+      <!-- Operation Types (Multi-select) -->
+      <div class="setting-group">
+        <span class="setting-label">Opérations (1 ou plusieurs au choix)</span>
+        <div class="segmented-row segmented-row--3">
+          <button type="button" class="choice-chip" data-op="add" id="chipOpAdd">
+            <span>➕ Additions</span>
+            <small>a + b = ?</small>
+          </button>
+          <button type="button" class="choice-chip" data-op="mul" id="chipOpMul">
+            <span>✖️ Multiplications</span>
+            <small>a × b = ?</small>
+          </button>
+          <button type="button" class="choice-chip" data-op="rev" id="chipOpRev">
+            <span>🔄 Inversées</span>
+            <small>? × ? = Produit</small>
+          </button>
+        </div>
+      </div>
+
+      <!-- Number of Digits -->
+      <div class="setting-group">
+        <span class="setting-label">Nombre de chiffres</span>
+        <div class="segmented-row segmented-row--3">
+          <button type="button" class="choice-chip" data-digits="1" id="chipDigits1">
+            <span>1 chiffre</span>
+            <small>1 à 9</small>
+          </button>
+          <button type="button" class="choice-chip" data-digits="2" id="chipDigits2">
+            <span>2 chiffres</span>
+            <small>10 à 99</small>
+          </button>
+          <button type="button" class="choice-chip" data-digits="mix" id="chipDigitsMix">
+            <span>Mix 1 &amp; 2</span>
+            <small>Varié</small>
+          </button>
+        </div>
+      </div>
+
+      <!-- Difficulty -->
+      <div class="setting-group">
+        <span class="setting-label">Difficulté</span>
+        <div class="segmented-row segmented-row--3">
+          <button type="button" class="choice-chip" data-diff="easy" id="chipDiffEasy">
+            <span>🌱 Facile</span>
+            <small>Échauffement</small>
+          </button>
+          <button type="button" class="choice-chip" data-diff="medium" id="chipDiffMedium">
+            <span>🌿 Moyen</span>
+            <small>Classique</small>
+          </button>
+          <button type="button" class="choice-chip" data-diff="hard" id="chipDiffHard">
+            <span>🔥 Difficile</span>
+            <small>Grand chef</small>
+          </button>
+        </div>
+      </div>
+
+      <!-- Timer Options -->
+      <div class="setting-group">
+        <span class="setting-label">Chronomètre</span>
+        <div class="segmented-row segmented-row--4">
+          <button type="button" class="choice-chip" data-timer="off" id="chipTimerOff">
+            <span>🧘 Sans chrono</span>
+            <small>À ton rythme</small>
+          </button>
+          <button type="button" class="choice-chip" data-timer="20" id="chipTimer20">
+            <span>🐢 20 sec</span>
+            <small>Par calcul</small>
+          </button>
+          <button type="button" class="choice-chip" data-timer="12" id="chipTimer12">
+            <span>🐇 12 sec</span>
+            <small>Par calcul</small>
+          </button>
+          <button type="button" class="choice-chip" data-timer="sprint60" id="chipTimerSprint">
+            <span>⚡ Sprint 60s</span>
+            <small>Max de truffes</small>
+          </button>
+        </div>
+      </div>
+
+      <button id="btnApplySettings" type="button" class="primary-action-btn">
+        C'est parti ! 🐽
+      </button>
+    </div>
+  </div>
+
+  <!-- 10-Truffle Reward Modal: SUCETTE AU CORNICHON ! -->
+  <div id="pickleRewardModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="rewardModalTitle">
+    <div class="sheet-card reward-card">
+      <span class="reward-badge-tag">🎉 10 TRUFFES DÉTERRÉES !</span>
+      <h2 id="rewardModalTitle" class="sheet-title">Une Sucette au Cornichon !</h2>
+
+      <!-- Custom Illustrated Gourmet Pickle Lollipop SVG -->
+      <div class="lollipop-stage" aria-hidden="true">
+        <svg viewBox="0 0 200 200" width="100%" height="100%">
+          <defs>
+            <radialGradient id="candyGlow" cx="40%" cy="35%" r="65%">
+              <stop offset="0%" stop-color="#f7ff9e" />
+              <stop offset="55%" stop-color="#a8e05f" />
+              <stop offset="100%" stop-color="#4ba33b" />
+            </radialGradient>
+            <linearGradient id="pickleBodyGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#5ec239" />
+              <stop offset="55%" stop-color="#3c8f22" />
+              <stop offset="100%" stop-color="#256114" />
+            </linearGradient>
+          </defs>
+          <!-- Rotating Golden Sunburst -->
+          <g class="lollipop-sunburst" opacity="0.55" fill="#ffd94a">
+            <polygon points="100,8 110,92 90,92" />
+            <polygon points="100,192 110,108 90,108" />
+            <polygon points="8,100 92,90 92,110" />
+            <polygon points="192,100 108,90 108,110" />
+            <polygon points="35,35 98,88 86,100" />
+            <polygon points="165,165 102,112 114,100" />
+            <polygon points="165,35 112,98 100,86" />
+            <polygon points="35,165 88,102 100,114" />
+          </g>
+
+          <!-- White Lollipop Stick -->
+          <rect x="95" y="122" width="10" height="68" rx="5" fill="#fffdf7" stroke="#d8cfc0" stroke-width="2" />
+
+          <!-- Festive Ribbon Bow -->
+          <path d="M100,134 L76,124 L80,144 Z" fill="#e63b2e" stroke="#9e1f16" stroke-width="1.5" />
+          <path d="M100,134 L124,124 L120,144 Z" fill="#e63b2e" stroke="#9e1f16" stroke-width="1.5" />
+          <circle cx="100" cy="134" r="6" fill="#ffcf40" stroke="#9e1f16" stroke-width="1.5" />
+
+          <!-- Translucent Swirl Candy Disc -->
+          <circle cx="100" cy="78" r="52" fill="url(#candyGlow)" stroke="#388029" stroke-width="3" />
+          <path d="M100,78 m-36,0 a36,36 0 1,1 72,0 a28,28 0 1,1 -56,0" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" opacity="0.42" />
+
+          <!-- The Crunchy Cornichon Encased Inside! -->
+          <g transform="translate(100, 78) rotate(-22)">
+            <path d="M-15,-32 C-6,-38 14,-34 17,-18 C19,-2 15,16 6,30 C-3,39 -18,34 -18,20 C-18,6 -11,-6 -15,-20 Z" fill="url(#pickleBodyGrad)" stroke="#1b4a0e" stroke-width="2.4" />
+            <!-- Classic Cornichon Bumps -->
+            <circle cx="-4" cy="-20" r="3" fill="#7be053" />
+            <circle cx="8" cy="-12" r="2.6" fill="#7be053" />
+            <circle cx="-6" cy="-4" r="2.8" fill="#7be053" />
+            <circle cx="6" cy="6" r="3.1" fill="#7be053" />
+            <circle cx="-7" cy="16" r="2.6" fill="#7be053" />
+            <circle cx="3" cy="22" r="2.3" fill="#7be053" />
+            <!-- Stem tip -->
+            <path d="M1,-34 Q4,-41 9,-39" fill="none" stroke="#255916" stroke-width="3" stroke-linecap="round" />
+          </g>
+
+          <!-- Specular Candy Gloss -->
+          <path d="M64,48 Q82,32 110,35" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round" opacity="0.75" />
+          <circle cx="58" cy="60" r="3.5" fill="#ffffff" opacity="0.75" />
+        </svg>
+      </div>
+
+      <p id="rewardFlavorName" class="reward-flavor-name">La Croquante Aigre-Douce du Périgord</p>
+      <p id="rewardDescription" class="reward-desc">
+        Barnabé se régale ! Tu as maintenant <strong id="rewardTotalPickles">1</strong> sucette au cornichon dans ta collection.
+      </p>
+
+      <button id="btnContinueAfterReward" type="button" class="primary-action-btn">
+        Continuer la chasse aux truffes ! 🐽
+      </button>
+    </div>
+  </div>
+
+  <!-- Pickle Lollipop Collection & Sprint Summary Modal -->
+  <div id="collectionModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="collectionTitle">
+    <div class="sheet-card">
+      <div class="sheet-header">
+        <h2 id="collectionTitle" class="sheet-title">🥒🍭 Trésors de Barnabé</h2>
+        <button id="btnCloseCollection" type="button" class="close-btn" aria-label="Fermer">✕</button>
+      </div>
+
+      <p id="collectionStatsLine" class="reward-desc" style="margin-bottom:8px;">
+        0 truffe déterrée • Meilleure série : 0
+      </p>
+
+      <div id="trophyGrid" class="trophy-grid">
+        <!-- Populated dynamically -->
+      </div>
+
+      <button id="btnCloseCollectionMain" type="button" class="primary-action-btn">
+        Retourner chercher des truffes
+      </button>
+      <div style="text-align:center;">
+        <button id="btnResetProgress" type="button" class="secondary-reset-btn">
+          Réinitialiser les compteurs
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sprint 60s End Modal -->
+  <div id="sprintEndModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="sprintEndTitle">
+    <div class="sheet-card reward-card">
+      <span class="reward-badge-tag">⏱️ SPRINT 60 SECONDES TERMINÉ !</span>
+      <h2 id="sprintEndTitle" class="sheet-title">Bravo chercheur de truffes !</h2>
+      <p id="sprintResultText" class="reward-flavor-name" style="margin-top:12px;">
+        0 truffe trouvée en 60 secondes !
+      </p>
+      <p id="sprintDetailText" class="reward-desc">
+        Prêt pour une nouvelle minute de fouille ?
+      </p>
+      <button id="btnRestartSprint" type="button" class="primary-action-btn">
+        Relancer un Sprint 60s ⚡
+      </button>
+    </div>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+{
+  "name": "Groin & Truffes — Calcul Mental",
+  "short_name": "Groin & Truffes",
+  "description": "Entraîne ton calcul mental avec Barnabé le petit cochon chercheur de truffes et gagne des sucettes au cornichon !",
+  "lang": "fr",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f6efe4",
+  "theme_color": "#f6efe4",
+  "icons": [
+    {
+      "src": "./apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

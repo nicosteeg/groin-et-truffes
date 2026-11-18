@@ -1,0 +1,1262 @@
+/* ==========================================================================
+   Groin & Truffes — Calcul Mental (iPhone, iPad & Web)
+   Design System: Warm Périgord Woodland & Tactile iOS/iPadOS Ergonomics
+   ========================================================================== */
+
+:root {
+  /* Harmonious HSL Palette */
+  --bg-parchment: hsl(39, 46%, 94%);
+  --bg-surface: hsl(40, 65%, 98.5%);
+  --bg-surface-muted: hsl(38, 35%, 91%);
+  --bg-key: hsl(40, 55%, 99%);
+  --bg-key-shadow: hsl(34, 26%, 78%);
+  --bg-key-alt: hsl(36, 40%, 93%);
+  --bg-key-alt-shadow: hsl(33, 24%, 74%);
+
+  --ink-strong: hsl(24, 38%, 17%);
+  --ink-body: hsl(24, 24%, 30%);
+  --ink-muted: hsl(26, 16%, 46%);
+  --border-subtle: hsl(35, 28%, 84%);
+
+  --moss-500: hsl(142, 48%, 38%);
+  --moss-600: hsl(142, 52%, 30%);
+  --moss-100: hsl(138, 46%, 91%);
+
+  --oak-500: hsl(29, 80%, 49%);
+  --oak-600: hsl(26, 78%, 39%);
+  --oak-100: hsl(35, 86%, 92%);
+
+  --berry-500: hsl(6, 74%, 54%);
+  --berry-100: hsl(8, 82%, 93%);
+
+  --pickle-500: hsl(104, 54%, 39%);
+  --pickle-300: hsl(98, 62%, 58%);
+  --gold-400: hsl(44, 94%, 54%);
+
+  /* Typography */
+  --font-rounded: ui-rounded, 'SF Pro Rounded', 'Avenir Next Rounded', 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  /* Radii & Spacing */
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 22px;
+  --radius-pill: 999px;
+
+  /* Safe-area aware insets for iPhone Dynamic Island & Home Indicator */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  height: 100dvh;
+  overflow: hidden;
+  background-color: var(--bg-parchment);
+  color: var(--ink-strong);
+  font-family: var(--font-rounded);
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+/* Main App Shell */
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100dvh;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding-top: max(8px, calc(var(--safe-top) + 4px));
+  padding-bottom: max(10px, calc(var(--safe-bottom) + 6px));
+  padding-left: max(12px, calc(var(--safe-left) + 10px));
+  padding-right: max(12px, calc(var(--safe-right) + 10px));
+  gap: 8px;
+}
+
+/* ==========================================================================
+   Top Navigation & Counters Header
+   ========================================================================== */
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.brand-cluster {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.app-title {
+  margin: 0;
+  font-size: clamp(1rem, 2.5vw, 1.3rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--ink-strong);
+  white-space: nowrap;
+}
+
+.score-pills {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.stat-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 11px;
+  border-radius: var(--radius-pill);
+  background: var(--bg-surface);
+  border: 1.5px solid var(--border-subtle);
+  box-shadow: 0 2px 0 var(--border-subtle);
+  font-size: 0.9rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-strong);
+  cursor: pointer;
+  transition: transform 0.16s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.15s ease;
+}
+
+.stat-pill:active {
+  transform: translateY(1px) scale(0.97);
+}
+
+.stat-pill.pill-bump {
+  animation: pillPop 0.42s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.stat-pill--pickle {
+  background: hsl(98, 52%, 93%);
+  border-color: hsl(102, 38%, 74%);
+  box-shadow: 0 2px 0 hsl(102, 32%, 76%);
+  color: hsl(108, 54%, 25%);
+}
+
+.top-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  height: 38px;
+  min-width: 38px;
+  padding: 0 10px;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid var(--border-subtle);
+  background: var(--bg-surface);
+  box-shadow: 0 2px 0 var(--border-subtle);
+  color: var(--ink-body);
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.12s ease, background-color 0.15s ease;
+}
+
+.icon-btn:hover {
+  background: hsl(40, 60%, 96%);
+}
+
+.icon-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 0 0 var(--border-subtle);
+}
+
+.icon-btn--active {
+  background: var(--oak-100);
+  border-color: hsl(31, 68%, 72%);
+  color: hsl(26, 78%, 32%);
+}
+
+.btn-label-desktop {
+  display: none;
+}
+
+/* ==========================================================================
+   Main Responsive Stage Grid (iPhone Stack -> iPad 2-Column)
+   ========================================================================== */
+.workspace-grid {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  gap: 8px;
+}
+
+.scene-column {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 0 1 auto;
+  min-height: 0;
+}
+
+.play-column {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  gap: 8px;
+}
+
+/* ==========================================================================
+   Woodland Piglet Stage & 10-Truffle Progress Track
+   ========================================================================== */
+.forest-card {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 2px solid hsl(34, 30%, 80%);
+  background: linear-gradient(180deg, hsl(197, 68%, 85%) 0%, hsl(186, 56%, 90%) 56%, hsl(98, 42%, 66%) 57%, hsl(104, 39%, 52%) 100%);
+  box-shadow: 0 4px 14px hsla(28, 35%, 20%, 0.08);
+  display: flex;
+  flex-direction: column;
+}
+
+.forest-svg-wrap {
+  position: relative;
+  width: 100%;
+  height: clamp(128px, 22dvh, 215px);
+  overflow: hidden;
+}
+
+.forest-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Active Mode Summary Chips inside top of forest stage */
+.stage-hud {
+  position: absolute;
+  top: 8px;
+  left: 10px;
+  right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  pointer-events: none;
+  gap: 6px;
+}
+
+.mode-summary-chip {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 9px;
+  border-radius: var(--radius-pill);
+  background: hsla(40, 75%, 98%, 0.88);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid hsla(32, 35%, 70%, 0.65);
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--ink-body);
+  cursor: pointer;
+}
+
+.streak-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 9px;
+  border-radius: var(--radius-pill);
+  background: hsla(38, 95%, 94%, 0.92);
+  border: 1px solid hsla(32, 75%, 68%, 0.7);
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: hsl(22, 80%, 36%);
+  font-variant-numeric: tabular-nums;
+  opacity: 0;
+  transform: scale(0.85);
+  transition: opacity 0.2s ease, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.streak-chip.is-visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* 10-Truffle Progress Bar toward Pickle Lollipop */
+.truffle-track-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 10px;
+  background: hsl(30, 38%, 24%);
+  color: hsl(38, 60%, 95%);
+  border-top: 2px solid hsl(28, 34%, 19%);
+}
+
+.truffle-slots {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 4px;
+  flex: 1 1 auto;
+  align-items: center;
+}
+
+.truffle-slot {
+  aspect-ratio: 1;
+  max-width: 24px;
+  width: 100%;
+  margin: 0 auto;
+  border-radius: 50%;
+  background: hsla(28, 30%, 14%, 0.65);
+  border: 1.5px dashed hsla(35, 30%, 62%, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.25s ease;
+}
+
+.truffle-slot svg {
+  width: 82%;
+  height: 82%;
+  opacity: 0;
+  transform: scale(0.3) rotate(-20deg);
+  transition: opacity 0.25s ease, transform 0.38s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.truffle-slot.is-filled {
+  background: hsl(34, 52%, 34%);
+  border: 1.5px solid hsl(40, 74%, 64%);
+}
+
+.truffle-slot.is-filled svg {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+
+.truffle-slot.just-earned {
+  animation: slotCelebrate 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.lollipop-goal-badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(135deg, hsl(100, 48%, 32%), hsl(122, 46%, 26%));
+  border: 1.5px solid hsl(94, 62%, 62%);
+  font-size: 0.75rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: hsl(60, 80%, 96%);
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   Barnabé SVG Piglet Character Rig Animations
+   ========================================================================== */
+#pigletMover {
+  transition: transform 0.52s cubic-bezier(0.32, 0.94, 0.52, 1);
+}
+
+/* Idle sniffing animation */
+.pig-state-sniff #pigBodyGroup {
+  animation: pigSniffBody 1.5s ease-in-out infinite;
+  transform-origin: 0px 0px;
+}
+
+.pig-state-sniff #pigHeadGroup {
+  animation: pigSniffHead 1.5s ease-in-out infinite;
+  transform-origin: 18px -18px;
+}
+
+.pig-state-sniff #pigSnout {
+  animation: snoutWiggle 0.45s ease-in-out infinite alternate;
+  transform-origin: 40px -12px;
+}
+
+.pig-state-sniff #pigEarFront {
+  animation: earFlop 1.5s ease-in-out infinite;
+  transform-origin: 22px -31px;
+}
+
+.pig-state-sniff #pigTail {
+  animation: tailWag 0.7s ease-in-out infinite alternate;
+  transform-origin: -28px -18px;
+}
+
+.pig-state-sniff .sniff-puff {
+  animation: sniffPuffFloat 1.4s ease-out infinite;
+}
+
+.pig-state-sniff .sniff-puff--2 {
+  animation-delay: 0.65s;
+}
+
+/* Trotting animation */
+.pig-state-trot #pigBodyGroup {
+  animation: pigTrotBounce 0.26s ease-in-out infinite alternate;
+}
+
+.pig-state-trot #legFrontNear,
+.pig-state-trot #legBackFar {
+  animation: legSwingA 0.26s ease-in-out infinite alternate;
+  transform-origin: top center;
+}
+
+.pig-state-trot #legFrontFar,
+.pig-state-trot #legBackNear {
+  animation: legSwingB 0.26s ease-in-out infinite alternate;
+  transform-origin: top center;
+}
+
+/* Digging animation */
+.pig-state-dig #pigHeadGroup {
+  transform: rotate(14deg) translateY(4px);
+  transform-origin: 18px -18px;
+}
+
+.pig-state-dig #legFrontNear {
+  animation: digScratch 0.11s linear infinite alternate;
+  transform-origin: 15px -4px;
+}
+
+.pig-state-dig .dirt-speck {
+  opacity: 1;
+  animation: dirtFly 0.36s ease-out infinite;
+}
+
+/* Joyful truffle celebration jump */
+.pig-state-happy #pigBodyGroup {
+  animation: pigJoyJump 0.62s cubic-bezier(0.28, 1.4, 0.5, 1);
+}
+
+.pig-state-happy #pigHeadGroup {
+  transform: rotate(-12deg) translateY(-3px);
+  transform-origin: 18px -18px;
+}
+
+.pig-state-happy #pigTail {
+  animation: tailWag 0.18s ease-in-out infinite alternate;
+  transform-origin: -28px -18px;
+}
+
+/* Sympathetic head shake on wrong answer */
+.pig-state-oops #pigBodyGroup {
+  animation: pigOopsShake 0.42s ease-in-out;
+}
+
+/* Eye state visibility */
+#eyesHappy, #eyesOops, #cheekBlush {
+  opacity: 0;
+}
+
+.pig-state-happy #eyesNormal,
+.pig-state-party #eyesNormal {
+  opacity: 0;
+}
+
+.pig-state-happy #eyesHappy,
+.pig-state-party #eyesHappy,
+.pig-state-happy #cheekBlush,
+.pig-state-party #cheekBlush {
+  opacity: 1;
+}
+
+.pig-state-oops #eyesNormal {
+  opacity: 0;
+}
+
+.pig-state-oops #eyesOops {
+  opacity: 1;
+}
+
+/* Periodic natural eye blink */
+#eyesNormal {
+  animation: naturalBlink 4.4s infinite;
+  transform-origin: 30px -22px;
+}
+
+/* Unearthed flying truffle */
+#poppedTruffle {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#poppedTruffle.is-popping {
+  animation: trufflePopArc 0.82s cubic-bezier(0.22, 1.28, 0.46, 1) forwards;
+}
+
+/* Gentle swaying clouds and oak leaves */
+.cloud-drift-slow {
+  animation: cloudDrift 26s ease-in-out infinite alternate;
+}
+
+.oak-canopy-sway {
+  animation: canopySway 5s ease-in-out infinite alternate;
+  transform-origin: 555px 120px;
+}
+
+/* ==========================================================================
+   Math Problem Card & Timer Bar
+   ========================================================================== */
+.question-card {
+  position: relative;
+  background: var(--bg-surface);
+  border: 2px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 4px 12px hsla(28, 30%, 20%, 0.05);
+  padding: 10px 14px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+/* Smooth Timer Progress Strip at top of Question Card */
+.timer-strip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: hsl(36, 30%, 88%);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.timer-strip.is-active {
+  opacity: 1;
+}
+
+.timer-strip-fill {
+  height: 100%;
+  width: 100%;
+  background: var(--moss-500);
+  transform-origin: left center;
+  transition: background-color 0.25s ease;
+}
+
+.timer-strip-fill.is-warn {
+  background: hsl(36, 92%, 50%);
+}
+
+.timer-strip-fill.is-danger {
+  background: var(--berry-500);
+}
+
+.question-meta {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 22px;
+}
+
+.op-type-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 9px;
+  border-radius: var(--radius-pill);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  background: var(--bg-surface-muted);
+  color: var(--ink-body);
+}
+
+.op-type-tag--reverse {
+  background: var(--oak-100);
+  color: hsl(25, 80%, 33%);
+}
+
+.timer-readout {
+  font-size: 0.82rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-muted);
+}
+
+.timer-readout.is-danger {
+  color: var(--berry-500);
+}
+
+/* Equation Display */
+.equation-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: clamp(6px, 2vw, 12px);
+  font-size: clamp(1.75rem, 6.2vw, 2.65rem);
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: var(--ink-strong);
+  padding: 2px 0;
+}
+
+.eq-operator {
+  color: var(--oak-500);
+  font-weight: 900;
+}
+
+.eq-equals {
+  color: var(--ink-muted);
+  font-weight: 800;
+}
+
+.answer-slot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: clamp(64px, 18vw, 96px);
+  height: clamp(46px, 7dvh, 62px);
+  padding: 0 12px;
+  border-radius: var(--radius-md);
+  background: hsl(38, 45%, 94%);
+  border: 2.5px solid hsl(34, 30%, 76%);
+  color: var(--ink-strong);
+  font-size: clamp(1.65rem, 5.8vw, 2.45rem);
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.answer-slot.is-focused {
+  background: hsl(38, 95%, 97%);
+  border-color: var(--oak-500);
+  box-shadow: 0 0 0 3px hsla(29, 85%, 52%, 0.2);
+}
+
+.answer-slot.is-placeholder {
+  color: hsl(30, 18%, 65%);
+}
+
+.answer-slot.is-correct {
+  background: var(--moss-100);
+  border-color: var(--moss-500);
+  color: var(--moss-600);
+  box-shadow: 0 0 0 3px hsla(142, 48%, 38%, 0.2);
+}
+
+.answer-slot.is-wrong {
+  background: var(--berry-100);
+  border-color: var(--berry-500);
+  color: var(--berry-500);
+  animation: slotShake 0.36s ease;
+}
+
+.feedback-banner {
+  min-height: 20px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  text-align: center;
+  color: var(--ink-muted);
+  transition: color 0.15s ease;
+}
+
+.feedback-banner.is-positive {
+  color: var(--moss-600);
+}
+
+.feedback-banner.is-hint {
+  color: hsl(20, 78%, 40%);
+}
+
+/* ==========================================================================
+   Tactile Custom Numeric Keypad (Zero iOS Keyboard Shift!)
+   ========================================================================== */
+.keypad-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap: clamp(6px, 1.4vw, 10px);
+  flex: 1 1 auto;
+  min-height: 184px;
+}
+
+.key-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1.5px solid hsl(35, 28%, 82%);
+  border-radius: var(--radius-md);
+  background: var(--bg-key);
+  box-shadow: 0 3px 0 var(--bg-key-shadow);
+  color: var(--ink-strong);
+  font-family: inherit;
+  font-size: clamp(1.35rem, 4.4vw, 1.75rem);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: transform 0.07s ease, box-shadow 0.07s ease, background-color 0.12s ease;
+}
+
+.key-btn:hover {
+  background: hsl(40, 75%, 99.5%);
+}
+
+.key-btn:active,
+.key-btn.is-pressed {
+  transform: translateY(3px);
+  box-shadow: 0 0 0 var(--bg-key-shadow);
+}
+
+.key-btn--erase {
+  background: var(--bg-key-alt);
+  border-color: hsl(34, 24%, 76%);
+  box-shadow: 0 3px 0 var(--bg-key-alt-shadow);
+  color: var(--ink-body);
+  font-size: clamp(1.15rem, 3.6vw, 1.4rem);
+}
+
+.key-btn--erase:hover {
+  background: hsl(36, 42%, 90%);
+}
+
+.key-btn--submit {
+  background: var(--moss-500);
+  border-color: var(--moss-600);
+  box-shadow: 0 3px 0 var(--moss-600);
+  color: hsl(0, 0%, 100%);
+  font-size: clamp(1rem, 3.3vw, 1.25rem);
+  font-weight: 800;
+}
+
+.key-btn--submit:hover {
+  background: hsl(142, 48%, 41%);
+}
+
+.key-btn--submit.is-next-factor {
+  background: var(--oak-500);
+  border-color: var(--oak-600);
+  box-shadow: 0 3px 0 var(--oak-600);
+}
+
+.key-btn--submit.is-next-factor:hover {
+  background: hsl(29, 82%, 52%);
+}
+
+/* ==========================================================================
+   Modals & Settings Sheet (iOS Bottom Sheet on iPhone, Centered Card on iPad)
+   ========================================================================== */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: hsla(24, 32%, 12%, 0.48);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.22s ease;
+}
+
+.modal-backdrop.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.sheet-card {
+  width: 100%;
+  max-width: 540px;
+  max-height: 88dvh;
+  overflow-y: auto;
+  background: var(--bg-surface);
+  border-radius: 24px 24px 0 0;
+  border-top: 2px solid var(--border-subtle);
+  padding: 18px 18px calc(20px + var(--safe-bottom));
+  box-shadow: 0 -10px 30px hsla(24, 38%, 12%, 0.18);
+  transform: translateY(28px);
+  transition: transform 0.26s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.modal-backdrop.is-open .sheet-card {
+  transform: translateY(0);
+}
+
+.sheet-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.sheet-title {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--ink-strong);
+}
+
+.close-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border-subtle);
+  background: var(--bg-surface-muted);
+  color: var(--ink-body);
+  font-size: 1rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.setting-group {
+  margin-bottom: 14px;
+}
+
+.setting-label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ink-muted);
+  margin-bottom: 7px;
+}
+
+.segmented-row {
+  display: grid;
+  gap: 7px;
+}
+
+.segmented-row--3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.segmented-row--4 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.choice-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 9px 8px;
+  border-radius: var(--radius-md);
+  border: 2px solid var(--border-subtle);
+  background: var(--bg-key);
+  color: var(--ink-body);
+  font-family: inherit;
+  font-size: 0.86rem;
+  font-weight: 800;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease, transform 0.1s ease;
+}
+
+.choice-chip small {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--ink-muted);
+}
+
+.choice-chip.is-selected {
+  background: var(--moss-100);
+  border-color: var(--moss-500);
+  color: hsl(142, 56%, 22%);
+}
+
+.choice-chip.is-selected small {
+  color: hsl(142, 42%, 30%);
+}
+
+.primary-action-btn {
+  width: 100%;
+  padding: 13px 18px;
+  border-radius: var(--radius-md);
+  border: 2px solid var(--moss-600);
+  background: var(--moss-500);
+  box-shadow: 0 3px 0 var(--moss-600);
+  color: #fff;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 800;
+  cursor: pointer;
+  margin-top: 6px;
+}
+
+.primary-action-btn:active {
+  transform: translateY(3px);
+  box-shadow: none;
+}
+
+/* ==========================================================================
+   Pickle Lollipop Celebration Modal ("Sucette au Cornichon !")
+   ========================================================================== */
+.reward-card {
+  text-align: center;
+  border-radius: 26px;
+  margin: 16px;
+  padding: 22px 20px;
+  max-width: 430px;
+  background: radial-gradient(circle at 50% 24%, hsl(52, 95%, 92%) 0%, var(--bg-surface) 68%);
+  border: 2.5px solid hsl(98, 48%, 62%);
+}
+
+.lollipop-stage {
+  position: relative;
+  width: 168px;
+  height: 168px;
+  margin: 4px auto 10px;
+  animation: lollipopReveal 0.75s cubic-bezier(0.28, 1.45, 0.5, 1);
+}
+
+.lollipop-sunburst {
+  animation: slowSpin 14s linear infinite;
+  transform-origin: 100px 100px;
+}
+
+.reward-badge-tag {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  background: hsl(98, 56%, 90%);
+  color: hsl(108, 58%, 24%);
+  font-size: 0.78rem;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+.reward-flavor-name {
+  margin: 4px 0 8px;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--pickle-500);
+}
+
+.reward-desc {
+  margin: 0 0 16px;
+  font-size: 0.9rem;
+  color: var(--ink-body);
+  line-height: 1.4;
+}
+
+/* Collection Grid */
+.trophy-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(135px, 1fr));
+  gap: 10px;
+  margin: 12px 0 16px;
+}
+
+.trophy-item {
+  padding: 10px;
+  border-radius: var(--radius-md);
+  border: 1.5px solid var(--border-subtle);
+  background: hsl(42, 48%, 96%);
+  text-align: center;
+}
+
+.trophy-item.is-locked {
+  opacity: 0.5;
+  filter: grayscale(0.85);
+}
+
+.trophy-item-title {
+  font-size: 0.8rem;
+  font-weight: 800;
+  margin-top: 4px;
+  color: var(--ink-strong);
+}
+
+.secondary-reset-btn {
+  margin-top: 10px;
+  background: transparent;
+  border: none;
+  color: var(--ink-muted);
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* Confetti Canvas */
+.confetti-layer {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 70;
+}
+
+/* ==========================================================================
+   Keyframes
+   ========================================================================== */
+@keyframes pillPop {
+  0% { transform: scale(1); }
+  45% { transform: scale(1.18); }
+  100% { transform: scale(1); }
+}
+
+@keyframes slotCelebrate {
+  0% { transform: scale(0.7); }
+  55% { transform: scale(1.28); }
+  100% { transform: scale(1); }
+}
+
+@keyframes pigSniffBody {
+  0%, 100% { transform: translateY(0px) rotate(1.5deg); }
+  50% { transform: translateY(1.8px) rotate(3.2deg); }
+}
+
+@keyframes pigSniffHead {
+  0%, 100% { transform: rotate(8deg) translateY(2px); }
+  50% { transform: rotate(14deg) translateY(4px); }
+}
+
+@keyframes snoutWiggle {
+  0% { transform: translate(0px, 0px) scale(1); }
+  100% { transform: translate(1.8px, -1.3px) scale(1.07); }
+}
+
+@keyframes earFlop {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(7deg); }
+}
+
+@keyframes tailWag {
+  0% { transform: rotate(-10deg); }
+  100% { transform: rotate(16deg); }
+}
+
+@keyframes sniffPuffFloat {
+  0% { opacity: 0; transform: translate(0, 0) scale(0.5); }
+  30% { opacity: 0.75; }
+  100% { opacity: 0; transform: translate(12px, -14px) scale(1.35); }
+}
+
+@keyframes pigTrotBounce {
+  0% { transform: translateY(0px) rotate(-1deg); }
+  100% { transform: translateY(-5px) rotate(2deg); }
+}
+
+@keyframes legSwingA {
+  0% { transform: rotate(-18deg); }
+  100% { transform: rotate(18deg); }
+}
+
+@keyframes legSwingB {
+  0% { transform: rotate(18deg); }
+  100% { transform: rotate(-18deg); }
+}
+
+@keyframes digScratch {
+  0% { transform: rotate(-28deg) translateY(-2px); }
+  100% { transform: rotate(22deg) translateY(2px); }
+}
+
+@keyframes dirtFly {
+  0% { opacity: 0.95; transform: translate(0, 0) scale(1); }
+  100% { opacity: 0; transform: translate(-22px, -18px) scale(0.4); }
+}
+
+@keyframes pigJoyJump {
+  0% { transform: translateY(0) scale(1); }
+  38% { transform: translateY(-26px) rotate(-8deg) scale(1.05); }
+  72% { transform: translateY(2px) rotate(2deg) scale(0.98); }
+  100% { transform: translateY(0) rotate(0) scale(1); }
+}
+
+@keyframes pigOopsShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  50% { transform: translateX(6px); }
+  75% { transform: translateX(-4px); }
+}
+
+@keyframes naturalBlink {
+  0%, 92%, 100% { transform: scaleY(1); }
+  95% { transform: scaleY(0.08); }
+}
+
+@keyframes trufflePopArc {
+  0% { opacity: 0; transform: translate(0, 8px) scale(0.3) rotate(-25deg); }
+  28% { opacity: 1; transform: translate(4px, -36px) scale(1.18) rotate(8deg); }
+  68% { opacity: 1; transform: translate(6px, -30px) scale(1.05) rotate(0deg); }
+  100% { opacity: 0; transform: translate(12px, -54px) scale(0.6) rotate(14deg); }
+}
+
+@keyframes slotShake {
+  0%, 100% { transform: translateX(0); }
+  22% { transform: translateX(-6px); }
+  48% { transform: translateX(6px); }
+  74% { transform: translateX(-4px); }
+}
+
+@keyframes lollipopReveal {
+  0% { transform: scale(0.25) rotate(-25deg); opacity: 0; }
+  65% { transform: scale(1.1) rotate(5deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+@keyframes slowSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes cloudDrift {
+  from { transform: translateX(-8px); }
+  to { transform: translateX(14px); }
+}
+
+@keyframes canopySway {
+  from { transform: rotate(-1.2deg); }
+  to { transform: rotate(1.4deg); }
+}
+
+/* ==========================================================================
+   Responsive Breakpoints: iPad Portrait, iPad Landscape & iPhone Landscape
+   ========================================================================== */
+
+/* Centered modals on iPad & Desktop */
+@media (min-width: 640px) {
+  .modal-backdrop {
+    align-items: center;
+    padding: 20px;
+  }
+
+  .sheet-card {
+    border-radius: 26px;
+    border: 2px solid var(--border-subtle);
+    padding: 22px 24px;
+  }
+
+  .segmented-row--4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .btn-label-desktop {
+    display: inline;
+  }
+}
+
+/* iPad Portrait (generous sizing) */
+@media (min-width: 740px) and (orientation: portrait) {
+  .app-shell {
+    max-width: 720px;
+    padding: 18px 24px;
+    gap: 14px;
+  }
+
+  .forest-svg-wrap {
+    height: 245px;
+  }
+
+  .question-card {
+    padding: 16px 22px;
+    gap: 10px;
+  }
+
+  .keypad-grid {
+    gap: 12px;
+  }
+}
+
+/* iPad Landscape & Wide Desktop: Balanced 2-Column Split */
+@media (min-width: 860px), (min-width: 660px) and (max-height: 520px) and (orientation: landscape) {
+  .app-shell {
+    padding: 16px 24px;
+    gap: 14px;
+  }
+
+  .workspace-grid {
+    flex-direction: row;
+    align-items: stretch;
+    gap: 18px;
+  }
+
+  .scene-column {
+    flex: 1.08 1 0;
+    justify-content: space-between;
+  }
+
+  .forest-card {
+    flex: 1 1 auto;
+  }
+
+  .forest-svg-wrap {
+    flex: 1 1 auto;
+    height: auto;
+    min-height: 220px;
+  }
+
+  .play-column {
+    flex: 0.92 1 0;
+    gap: 12px;
+  }
+}
+
+/* Compact iPhone Landscape adjustments */
+@media (max-height: 460px) and (orientation: landscape) {
+  .app-shell {
+    padding: 6px 14px;
+    gap: 6px;
+  }
+
+  .forest-svg-wrap {
+    min-height: 130px;
+  }
+
+  .question-card {
+    padding: 6px 12px;
+    gap: 3px;
+  }
+
+  .equation-row {
+    font-size: 1.5rem;
+  }
+
+  .answer-slot {
+    height: 38px;
+    font-size: 1.4rem;
+  }
+
+  .keypad-grid {
+    min-height: 140px;
+    gap: 5px;
+  }
+
+  .key-btn {
+    font-size: 1.15rem;
+  }
+}
