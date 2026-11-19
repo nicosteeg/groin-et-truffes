@@ -638,10 +638,13 @@
     return `<svg viewBox="-22 -28 44 33" aria-hidden="true">${hatObj.svg}</svg>`;
   }
 
-  function syncPigHatUI() {
+  function syncPigHatUI(celebrate = false) {
     const activeHat = PIG_HATS.find((h) => h.id === state.progress.equippedHat) || null;
     if (dom.pigHatSlot) {
       dom.pigHatSlot.innerHTML = activeHat ? activeHat.svg : '';
+    }
+    if (window.Barnabe3D && window.Barnabe3D.initialized) {
+      window.Barnabe3D.setHat(state.progress.equippedHat, celebrate);
     }
     if (dom.hatHudText) {
       const count = state.progress.pickleLollipops;
@@ -703,6 +706,9 @@
 
   function renderTrailSpotsOnSvg() {
     const foundCount = state.progress.cycleTruffles;
+    if (window.Barnabe3D && window.Barnabe3D.initialized) {
+      window.Barnabe3D.setFoundCount(foundCount);
+    }
     dom.trailSpotsGroup.innerHTML = TRAIL_SPOTS.map((pt, idx) => {
       if (idx < foundCount) {
         // Dug-up cozy mound with golden sparkle
@@ -731,6 +737,9 @@
     const pigY = spot.y - 4;
     dom.pigletMover.setAttribute('transform', `translate(${pigX}, ${pigY})`);
     syncSvgCamera(pigX, animateCamera);
+    if (window.Barnabe3D && window.Barnabe3D.initialized) {
+      window.Barnabe3D.setPosition(clampedIdx, animateCamera);
+    }
   }
 
   function syncSvgCamera(pigX, smooth = true) {
@@ -770,6 +779,9 @@
 
   function setPigState(stateName) {
     dom.pigletMover.className.baseVal = `pig-state-${stateName}`;
+    if (window.Barnabe3D && window.Barnabe3D.initialized) {
+      window.Barnabe3D.setPigState(stateName);
+    }
   }
 
   function bumpElement(el) {
@@ -1467,7 +1479,7 @@
         if (chosenId > 0 && state.progress.pickleLollipops < chosenId * 3) return;
         state.progress.equippedHat = chosenId;
         sfx.switchSlot();
-        syncPigHatUI();
+        syncPigHatUI(true);
         saveState();
         openCollectionModal();
       });
@@ -1695,14 +1707,26 @@
   }
 
   /* ==========================================================================
-     Bootstrap
+     Bootstrap (including 3D Pixar Barnabé Stage)
      ========================================================================== */
+  function init3DStageIfReady() {
+    if (!window.Barnabe3D || window.Barnabe3D.initialized || !dom.forestSvgWrap) return;
+    window.Barnabe3D.init(dom.forestSvgWrap, {
+      spotIndex: state.progress.cycleTruffles,
+      foundCount: state.progress.cycleTruffles,
+      hatId: state.progress.equippedHat,
+      pigState: 'sniff'
+    });
+  }
+
   function init() {
     loadState();
     renderTruffleBasketSlots();
     updateSummaryChips();
     bindEvents();
     updatePigletPosition(state.progress.cycleTruffles, false);
+    init3DStageIfReady();
+    window.addEventListener('barnabe3d-ready', init3DStageIfReady);
 
     if (state.settings.timerMode === 'sprint60') {
       startSprint60();
