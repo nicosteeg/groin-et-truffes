@@ -58,42 +58,41 @@ function createIrisTexture() {
   c.width = 256;
   c.height = 256;
   const ctx = c.getContext('2d');
-  // Rich Pixar warm chestnut-amber iris with dark limbal ring & bottom glow!
-  const bg = ctx.createRadialGradient(128, 128, 30, 128, 128, 124);
-  bg.addColorStop(0.0, '#120805');
-  bg.addColorStop(0.46, '#140906');
-  bg.addColorStop(0.50, '#4f2918');
-  bg.addColorStop(0.76, '#7a4124');
-  bg.addColorStop(0.90, '#3a1c10');
-  bg.addColorStop(1.0, '#1d0d08');
+  // Ultra-cute Kawaii deep glossy espresso-black eye with warm cocoa-amber lower sheen!
+  const bg = ctx.createRadialGradient(128, 122, 16, 128, 128, 128);
+  bg.addColorStop(0.0, '#120806');
+  bg.addColorStop(0.62, '#1c0d09');
+  bg.addColorStop(0.88, '#2d150e');
+  bg.addColorStop(1.0, '#160906');
   ctx.fillStyle = bg;
   ctx.fillRect(0, 0, 256, 256);
 
-  // Warm golden-amber lower iris crescent glow (classic Pixar eye soulfulness!)
-  const glow = ctx.createRadialGradient(128, 178, 8, 128, 178, 72);
-  glow.addColorStop(0, 'rgba(240, 168, 88, 0.68)');
-  glow.addColorStop(0.6, 'rgba(204, 118, 52, 0.28)');
-  glow.addColorStop(1, 'rgba(204, 118, 52, 0)');
+  // Soft warm amber-caramel Kawaii lower crescent highlight
+  const glow = ctx.createRadialGradient(128, 198, 6, 128, 194, 78);
+  glow.addColorStop(0, 'rgba(235, 152, 86, 0.72)');
+  glow.addColorStop(0.55, 'rgba(176, 94, 46, 0.28)');
+  glow.addColorStop(1, 'rgba(176, 94, 46, 0)');
   ctx.fillStyle = glow;
   ctx.beginPath();
-  ctx.arc(128, 128, 116, 0, Math.PI * 2);
+  ctx.arc(128, 128, 122, 0, Math.PI * 2);
   ctx.fill();
 
-  // Crisp pupil center
-  ctx.fillStyle = '#0c0504';
-  ctx.beginPath();
-  ctx.arc(128, 128, 60, 0, Math.PI * 2);
-  ctx.fill();
-
-  // Dual bright Pixar specular catchlights baked cleanly onto the eye!
+  // Big luminous Kawaii upper-left sparkle catchlight!
   ctx.fillStyle = '#ffffff';
   ctx.beginPath();
-  ctx.ellipse(94, 86, 26, 22, -0.35, 0, Math.PI * 2);
+  ctx.ellipse(90, 82, 34, 28, -0.32, 0, Math.PI * 2);
   ctx.fill();
 
-  ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
+  // Cute smaller secondary sparkle catchlight
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.92)';
   ctx.beginPath();
-  ctx.arc(166, 162, 11, 0, Math.PI * 2);
+  ctx.arc(166, 160, 15, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Tiny soft pink-white twinkle dot
+  ctx.fillStyle = 'rgba(255, 232, 240, 0.85)';
+  ctx.beginPath();
+  ctx.arc(122, 178, 7, 0, Math.PI * 2);
   ctx.fill();
 
   const tex = new THREE.CanvasTexture(c);
@@ -101,28 +100,32 @@ function createIrisTexture() {
   return tex;
 }
 
-function createPlusOneSpriteTexture() {
+function createFloatingBadgeTexture(text, fillTop, fillMid, fillBot, strokeCol) {
   const c = document.createElement('canvas');
-  c.width = 128;
+  c.width = 160;
   c.height = 96;
   const ctx = c.getContext('2d');
-  ctx.clearRect(0, 0, 128, 96);
-  ctx.font = '900 58px ui-rounded, "SF Pro Rounded", "Nunito", sans-serif';
+  ctx.clearRect(0, 0, 160, 96);
+  ctx.font = '900 54px ui-rounded, "SF Pro Rounded", "Nunito", sans-serif';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
   ctx.lineJoin = 'round';
   ctx.lineWidth = 13;
-  ctx.strokeStyle = '#5a3308';
-  ctx.strokeText('+1', 64, 52);
-  const grad = ctx.createLinearGradient(0, 16, 0, 80);
-  grad.addColorStop(0, '#fff7a8');
-  grad.addColorStop(0.55, '#ffdf4d');
-  grad.addColorStop(1, '#f5a623');
+  ctx.strokeStyle = strokeCol;
+  ctx.strokeText(text, 80, 52);
+  const grad = ctx.createLinearGradient(0, 14, 0, 84);
+  grad.addColorStop(0, fillTop);
+  grad.addColorStop(0.55, fillMid);
+  grad.addColorStop(1, fillBot);
   ctx.fillStyle = grad;
-  ctx.fillText('+1', 64, 52);
+  ctx.fillText(text, 80, 52);
   const tex = new THREE.CanvasTexture(c);
   tex.colorSpace = THREE.SRGBColorSpace;
   return tex;
+}
+
+function createPlusOneSpriteTexture() {
+  return createFloatingBadgeTexture('+1', '#fff7a8', '#ffdf4d', '#f5a623', '#5a3308');
 }
 
 function createSparkleTexture() {
@@ -136,6 +139,37 @@ function createSparkleTexture() {
   g.addColorStop(1, 'rgba(255,224,96,0)');
   ctx.fillStyle = g;
   ctx.fillRect(0, 0, 64, 64);
+  const tex = new THREE.CanvasTexture(c);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  return tex;
+}
+
+function createMudSplatTexture() {
+  const c = document.createElement('canvas');
+  c.width = 128;
+  c.height = 128;
+  const ctx = c.getContext('2d');
+  ctx.clearRect(0, 0, 128, 128);
+  // Soft organic cartoon dirt & dust blotch with surrounding droplets
+  const g = ctx.createRadialGradient(64, 64, 10, 64, 64, 46);
+  g.addColorStop(0, 'rgba(98, 62, 34, 0.92)');
+  g.addColorStop(0.65, 'rgba(128, 86, 52, 0.78)');
+  g.addColorStop(1, 'rgba(155, 112, 72, 0.0)');
+  ctx.fillStyle = g;
+  ctx.beginPath();
+  ctx.ellipse(64, 64, 42, 34, 0.25, 0, Math.PI * 2);
+  ctx.fill();
+
+  const specks = [
+    [32, 40, 9], [96, 46, 11], [44, 94, 8], [88, 92, 7], [26, 74, 6], [102, 76, 6]
+  ];
+  ctx.fillStyle = 'rgba(105, 68, 38, 0.82)';
+  specks.forEach(([sx, sy, sr]) => {
+    ctx.beginPath();
+    ctx.arc(sx, sy, sr, 0, Math.PI * 2);
+    ctx.fill();
+  });
+
   const tex = new THREE.CanvasTexture(c);
   tex.colorSpace = THREE.SRGBColorSpace;
   return tex;
@@ -526,7 +560,7 @@ function buildPixarPiglet() {
   tuftGroup.add(tuft1, tuftTip);
   headPivot.add(tuftGroup);
 
-  // Big Soulful Glossy Pixar Eyes (properly positioned on skull curve with curved domed iris!)
+  // Petite Glossy Kawaii Button Eyes (cute Pixar-meets-Kawaii baby proportions!)
   function createCurvedIrisGeo(radius) {
     const geo = new THREE.CircleGeometry(radius, 32);
     const pos = geo.attributes.position;
@@ -534,84 +568,91 @@ function buildPixarPiglet() {
       const vx = pos.getX(i);
       const vy = pos.getY(i);
       const rNorm = Math.min(1, Math.hypot(vx, vy) / radius);
-      // Gentle convex dome wrapping tightly onto sclera front
-      pos.setZ(i, 0.028 * (1 - rNorm * rNorm));
+      pos.setZ(i, 0.022 * (1 - rNorm * rNorm));
     }
     geo.computeVertexNormals();
     return geo;
   }
-  const curvedIrisGeo = createCurvedIrisGeo(0.106);
+  const curvedIrisGeo = createCurvedIrisGeo(0.082);
+  const kawaiiBaseMat = new THREE.MeshPhysicalMaterial({
+    color: 0x1a0c08,
+    roughness: 0.08,
+    metalness: 0.0,
+    clearcoat: 1.0,
+    clearcoatRoughness: 0.03
+  });
 
   function buildPixarEye(side) {
     // side: -1 = left (-Z), +1 = right (+Z)
     const eyeGroup = new THREE.Group();
-    eyeGroup.position.set(0.425, 0.105, side * 0.215);
-    // Negative Y rotation angles +X toward +Z (right cheek), positive toward -Z (left cheek)
+    // Slightly lower & wider apart for unmistakable Kawaii baby cuteness!
+    eyeGroup.position.set(0.452, 0.082, side * 0.222);
     eyeGroup.rotation.y = -side * 0.36;
-    eyeGroup.rotation.z = 0.05;
+    eyeGroup.rotation.z = 0.04;
     headPivot.add(eyeGroup);
 
     const openGroup = new THREE.Group();
     eyeGroup.add(openGroup);
 
-    // Glossy sclera eyeball nestled right into the sculpted face
-    const sclera = new THREE.Mesh(new THREE.SphereGeometry(0.136, 28, 22), scleraMat);
-    sclera.scale.set(0.74, 1.08, 0.96);
-    openGroup.add(sclera);
+    // Compact rounded glossy dark Kawaii button eye (no oversized staring white rim!)
+    const eyeOrb = new THREE.Mesh(new THREE.SphereGeometry(0.086, 26, 20), kawaiiBaseMat);
+    eyeOrb.scale.set(0.62, 1.05, 0.96);
+    openGroup.add(eyeOrb);
 
-    // Curved glossy Pixar chestnut-amber iris + pupil + dual catchlights facing +X!
+    // Glossy Kawaii espresso iris with warm caramel bottom glow + triple starlight catchlights!
     const irisMesh = new THREE.Mesh(curvedIrisGeo, irisDiscMat);
     irisMesh.rotation.y = Math.PI / 2;
-    irisMesh.position.set(0.079, 0.0, 0.0);
+    irisMesh.position.set(0.038, 0.0, 0.0);
     openGroup.add(irisMesh);
-
-    // Soft curved upper lash / eyelid line framing the top of the eye
-    const lashCurve = new THREE.CatmullRomCurve3([
-      new THREE.Vector3(0.055, 0.088, -0.105),
-      new THREE.Vector3(0.098, 0.140, 0),
-      new THREE.Vector3(0.055, 0.088, 0.105)
-    ]);
-    const lashLine = new THREE.Mesh(
-      new THREE.TubeGeometry(lashCurve, 14, 0.015, 8, false),
-      darkLineMat
-    );
-    openGroup.add(lashLine);
 
     // Smooth blink lid (hidden except during the 130ms natural blink)
     const blinkLid = new THREE.Mesh(
-      new THREE.SphereGeometry(0.143, 20, 14),
+      new THREE.SphereGeometry(0.092, 18, 14),
       skinMat
     );
-    blinkLid.scale.set(0.78, 1.10, 0.99);
+    blinkLid.scale.set(0.68, 1.08, 1.0);
     blinkLid.visible = false;
     openGroup.add(blinkLid);
 
-    // Happy squinting crescent arc (^ ^)
+    // Happy squinting Kawaii crescent arc (^ ^)
     const happyCurve = new THREE.CatmullRomCurve3([
-      new THREE.Vector3(0.07, -0.01, -0.095),
-      new THREE.Vector3(0.125, 0.072, 0),
-      new THREE.Vector3(0.07, -0.01, 0.095)
+      new THREE.Vector3(0.045, -0.008, -0.072),
+      new THREE.Vector3(0.075, 0.052, 0),
+      new THREE.Vector3(0.045, -0.008, 0.072)
     ]);
     const happyArc = new THREE.Mesh(
-      new THREE.TubeGeometry(happyCurve, 14, 0.022, 8, false),
+      new THREE.TubeGeometry(happyCurve, 14, 0.017, 8, false),
       darkLineMat
     );
     happyArc.visible = false;
     eyeGroup.add(happyArc);
 
-    // Tiny soft curved eyebrow tucked gently above eye
+    // Comical Kawaii wince arc (> <) when dust explodes into his face!
+    const winceCurve = new THREE.CatmullRomCurve3([
+      new THREE.Vector3(0.045, 0.052, side * 0.056),
+      new THREE.Vector3(0.072, 0.0, -side * 0.048),
+      new THREE.Vector3(0.045, -0.052, side * 0.056)
+    ]);
+    const winceArc = new THREE.Mesh(
+      new THREE.TubeGeometry(winceCurve, 12, 0.017, 8, false),
+      darkLineMat
+    );
+    winceArc.visible = false;
+    eyeGroup.add(winceArc);
+
+    // Tiny delicate Kawaii eyebrow tucked softly above the eye
     const browCurve = new THREE.CatmullRomCurve3([
-      new THREE.Vector3(0.028, 0.185, -0.065),
-      new THREE.Vector3(0.058, 0.208, 0),
-      new THREE.Vector3(0.028, 0.190, 0.065)
+      new THREE.Vector3(0.018, 0.132, -0.046),
+      new THREE.Vector3(0.036, 0.148, 0),
+      new THREE.Vector3(0.018, 0.135, 0.046)
     ]);
     const brow = new THREE.Mesh(
-      new THREE.TubeGeometry(browCurve, 10, 0.014, 8, false),
+      new THREE.TubeGeometry(browCurve, 10, 0.011, 8, false),
       browMat
     );
     eyeGroup.add(brow);
 
-    return { eyeGroup, openGroup, blinkLid, happyArc, brow };
+    return { eyeGroup, openGroup, blinkLid, happyArc, winceArc, brow };
   }
 
   const eyeL = buildPixarEye(-1);
@@ -645,6 +686,38 @@ function buildPixarPiglet() {
   hatAnchor.rotation.z = 0.08;
   headPivot.add(hatAnchor);
 
+  // Cartoon Dirt & Dust Splat Decals (placed cleanly outside surface normals so they visibly splash Barnabé!)
+  const dustSplatMat = new THREE.MeshBasicMaterial({
+    map: createMudSplatTexture(),
+    transparent: true,
+    opacity: 0,
+    depthWrite: false,
+    side: THREE.DoubleSide
+  });
+  const dustSplatMeshes = [];
+
+  function addOutwardSplat(parent, nx, ny, nz, dist, radius) {
+    const dir = new THREE.Vector3(nx, ny, nz).normalize();
+    const m = new THREE.Mesh(new THREE.CircleGeometry(radius, 18), dustSplatMat);
+    m.position.copy(dir).multiplyScalar(dist);
+    m.lookAt(dir.clone().multiplyScalar(dist + 1));
+    m.visible = false;
+    parent.add(m);
+    dustSplatMeshes.push(m);
+  }
+
+  // Head splatters (head surface radius ~0.535 -> sit cleanly at 0.562!)
+  addOutwardSplat(headPivot, 0.72, 0.52, 0.45, 0.562, 0.16);   // Forehead right
+  addOutwardSplat(headPivot, 0.76, 0.48, -0.40, 0.562, 0.14);  // Forehead left
+  addOutwardSplat(headPivot, 0.55, -0.22, 0.80, 0.595, 0.18);  // Chubby right cheek (viewer-facing!)
+  addOutwardSplat(headPivot, 0.58, -0.20, -0.78, 0.595, 0.15); // Left cheek
+  addOutwardSplat(headPivot, 0.35, 0.35, 0.86, 0.568, 0.14);   // Side temple
+  // Right on Barnabé's glossy snout!
+  addOutwardSplat(snoutGroup, 1.0, 0.25, 0.18, 0.185, 0.115);
+  // Chest / front body splatters
+  addOutwardSplat(bodyGroup, 0.72, -0.10, 0.68, 0.65, 0.17);
+  addOutwardSplat(bodyGroup, 0.42, 0.14, 0.89, 0.61, 0.15);
+
   return {
     pigRoot,
     bodyGroup,
@@ -658,7 +731,9 @@ function buildPixarPiglet() {
     eyeR,
     earL,
     earR,
-    hatAnchor
+    hatAnchor,
+    dustSplatMat,
+    dustSplatMeshes
   };
 }
 
@@ -1284,6 +1359,14 @@ class Barnabe3DController {
     this.dirtParticles = [];
     this.sniffPuffs = [];
     this.hatSparkles = [];
+    this.dustCloudPuffs = [];
+    this.blastRing = null;
+    this.blastRingTimer = 0;
+    this.lostBadge = null;
+    this.lostBadgeTimer = 0;
+    this.lostBadgeOrigin = new THREE.Vector3();
+    this.dustSplatTimer = 0;
+    this.camShakeTimer = 0;
     this.sniffEmitCooldown = 0;
     this.dirtEmitCooldown = 0;
   }
@@ -1402,13 +1485,14 @@ class Barnabe3DController {
   }
 
   _buildParticlePools() {
-    const dirtGeo = new THREE.DodecahedronGeometry(0.072, 0);
+    // 22 Dirt & Mud Clods (shared by digging + hole dust explosion!)
+    const dirtGeo = new THREE.DodecahedronGeometry(0.075, 0);
     const dirtMat = new THREE.MeshStandardMaterial({ color: 0x6e472b, roughness: 0.95 });
-    for (let i = 0; i < 14; i++) {
+    for (let i = 0; i < 22; i++) {
       const m = new THREE.Mesh(dirtGeo, dirtMat);
       m.visible = false;
       this.scene.add(m);
-      this.dirtParticles.push({ mesh: m, vel: new THREE.Vector3(), life: 0, maxLife: 0.55 });
+      this.dirtParticles.push({ mesh: m, vel: new THREE.Vector3(), life: 0, maxLife: 0.65 });
     }
 
     const puffGeo = new THREE.SphereGeometry(0.056, 10, 8);
@@ -1428,6 +1512,54 @@ class Barnabe3DController {
       this.scene.add(m);
       this.hatSparkles.push({ mesh: m, mat, vel: new THREE.Vector3(), life: 0, maxLife: 0.95 });
     }
+
+    // 24 Billowy Cartoon Dust Explosion Clouds bursting out of the hole & splashing Barnabé!
+    const dustGeo = new THREE.SphereGeometry(0.19, 12, 10);
+    const dustColors = [0xc9a378, 0xb08659, 0xdcc09b, 0x9b7048];
+    for (let i = 0; i < 24; i++) {
+      const mat = new THREE.MeshStandardMaterial({
+        color: dustColors[i % dustColors.length],
+        roughness: 1.0,
+        transparent: true,
+        opacity: 0
+      });
+      const m = new THREE.Mesh(dustGeo, mat);
+      m.visible = false;
+      this.scene.add(m);
+      this.dustCloudPuffs.push({
+        mesh: m,
+        mat,
+        vel: new THREE.Vector3(),
+        life: 0,
+        maxLife: 0.95,
+        baseScale: 0.7 + (i % 4) * 0.25
+      });
+    }
+
+    // Expanding ground shockwave ring on the dirt mound
+    const ringMat = new THREE.MeshBasicMaterial({
+      color: 0xd9b589,
+      transparent: true,
+      opacity: 0,
+      side: THREE.DoubleSide
+    });
+    this.blastRing = new THREE.Mesh(new THREE.RingGeometry(0.18, 0.36, 26), ringMat);
+    this.blastRing.rotation.x = -Math.PI / 2;
+    this.blastRing.visible = false;
+    this.scene.add(this.blastRing);
+
+    // Floating "-3" / "POUF!" Penalty Badge Sprite
+    this.lostBadge = new THREE.Sprite(
+      new THREE.SpriteMaterial({
+        map: createFloatingBadgeTexture('-3', '#ffd4cc', '#ff6452', '#c7261a', '#4a0c08'),
+        transparent: true,
+        opacity: 0,
+        depthTest: false
+      })
+    );
+    this.lostBadge.scale.set(1.05, 0.64, 1);
+    this.lostBadge.visible = false;
+    this.scene.add(this.lostBadge);
   }
 
   resize() {
@@ -1510,6 +1642,87 @@ class Barnabe3DController {
     this._emitHatSparkles(this.trufflePop.origin.clone().add(new THREE.Vector3(0, 0.45, 0)));
   }
 
+  triggerDustExplosion(lostCount = 0) {
+    if (!this.initialized || !this.pig) return;
+    const spot = getSpotPosition(this.spotIndex);
+    const holeOrigin = new THREE.Vector3(spot.x, 0.12, spot.z);
+
+    // 1. Launch 24 dusty cartoon clouds: half billowing up, half blasting straight onto Barnabé!
+    this.dustCloudPuffs.forEach((p, idx) => {
+      p.maxLife = 0.78 + Math.random() * 0.45;
+      p.life = p.maxLife;
+      p.mesh.visible = true;
+      p.mesh.position.copy(holeOrigin).add(
+        new THREE.Vector3((Math.random() - 0.5) * 0.25, Math.random() * 0.08, (Math.random() - 0.5) * 0.25)
+      );
+      if (idx < 13) {
+        // Directed dust blast straight toward Barnabé's snout & face!
+        p.vel.set(
+          -1.6 - Math.random() * 2.1,
+          0.95 + Math.random() * 1.45,
+          (Math.random() - 0.5) * 1.45
+        );
+      } else {
+        // Radial mushroom-puff plume bursting up from the truffle hole
+        const ang = ((idx - 13) / 11) * Math.PI * 2;
+        const spd = 0.7 + Math.random() * 1.1;
+        p.vel.set(
+          Math.cos(ang) * spd - 0.25,
+          1.7 + Math.random() * 1.5,
+          Math.sin(ang) * spd
+        );
+      }
+    });
+
+    // 2. Launch 18 flying dirt/mud clods from the hole spraying Barnabé!
+    this.dirtParticles.forEach((p, idx) => {
+      if (idx >= 18) return;
+      p.maxLife = 0.62 + Math.random() * 0.35;
+      p.life = p.maxLife;
+      p.mesh.visible = true;
+      p.mesh.position.copy(holeOrigin).add(
+        new THREE.Vector3((Math.random() - 0.5) * 0.2, 0.08, (Math.random() - 0.5) * 0.2)
+      );
+      p.mesh.scale.setScalar(0.8 + Math.random() * 0.85);
+      p.vel.set(
+        -1.9 - Math.random() * 2.2,
+        2.6 + Math.random() * 1.8,
+        (Math.random() - 0.5) * 1.8
+      );
+    });
+
+    // 3. Expanding sandy shockwave ring on the mound
+    if (this.blastRing) {
+      this.blastRing.position.set(spot.x, 0.06, spot.z);
+      this.blastRing.scale.setScalar(0.5);
+      this.blastRing.visible = true;
+      this.blastRingTimer = 0.45;
+    }
+
+    // 4. Splash dirt/dust blotches right onto Barnabé's face, snout & chest!
+    this.dustSplatTimer = 1.95;
+    this.camShakeTimer = 0.28;
+
+    // 5. Pop floating "-3" (or "-2" / "-1" / "POUF!") badge above the blast
+    if (this.lostBadge) {
+      const label = lostCount > 0 ? `-${lostCount}` : 'POUF!';
+      const oldMap = this.lostBadge.material.map;
+      this.lostBadge.material.map = createFloatingBadgeTexture(
+        label,
+        '#ffe0d4',
+        '#ff664f',
+        '#c92316',
+        '#4a0c08'
+      );
+      this.lostBadge.material.needsUpdate = true;
+      if (oldMap) oldMap.dispose();
+      this.lostBadgeOrigin.set(spot.x - 0.25, 0.62, spot.z + 0.25);
+      this.lostBadge.position.copy(this.lostBadgeOrigin);
+      this.lostBadge.visible = true;
+      this.lostBadgeTimer = 1.15;
+    }
+  }
+
   _applyEyeExpression(stateName) {
     if (!this.pig) return;
     const isHappy = stateName === 'happy';
@@ -1517,19 +1730,20 @@ class Barnabe3DController {
 
     [this.pig.eyeL, this.pig.eyeR].forEach((eye, idx) => {
       const side = idx === 0 ? -1 : 1;
-      eye.openGroup.visible = !isHappy;
+      eye.openGroup.visible = !isHappy && !isOops;
       eye.happyArc.visible = isHappy;
-      eye.openGroup.scale.setScalar(isOops ? 1.15 : 1.0);
+      eye.winceArc.visible = isOops;
+      eye.openGroup.scale.setScalar(1.0);
 
       if (isHappy) {
-        eye.brow.position.y = 0.035;
+        eye.brow.position.y = 0.03;
         eye.brow.rotation.x = 0;
       } else if (isOops) {
-        eye.brow.position.y = 0.05;
-        eye.brow.rotation.x = side * 0.22;
+        eye.brow.position.y = 0.025;
+        eye.brow.rotation.x = -side * 0.25;
       } else if (stateName === 'dig') {
-        eye.brow.position.y = -0.02;
-        eye.brow.rotation.x = -side * 0.20;
+        eye.brow.position.y = -0.015;
+        eye.brow.rotation.x = -side * 0.18;
       } else {
         eye.brow.position.y = 0.0;
         eye.brow.rotation.x = 0;
@@ -1609,7 +1823,8 @@ class Barnabe3DController {
 
   _updatePiglet(dt, elapsed) {
     const {
-      pigRoot, bodyGroup, headPivot, snoutGroup, smileMesh, tailPivot, legs, eyeL, eyeR, earL, earR, hatAnchor
+      pigRoot, bodyGroup, headPivot, snoutGroup, smileMesh, tailPivot, legs, eyeL, eyeR, earL, earR, hatAnchor,
+      dustSplatMat, dustSplatMeshes
     } = this.pig;
 
     const moveLerp = 1 - Math.exp(-dt * 5.8);
@@ -1624,7 +1839,7 @@ class Barnabe3DController {
     let bodyScaleY = 1;
     let bodyScaleZ = 1;
     let headPitch = 0;
-    let headYaw = -0.22; // Negative Y turns Barnabé's cute face warmly toward the player!
+    let headYaw = -0.22;
     let headRoll = 0;
 
     if (this.pigState === 'sniff') {
@@ -1690,7 +1905,7 @@ class Barnabe3DController {
       bodyScaleY = 1 + jump * 0.11 - (p > 0.85 ? (p - 0.85) * 0.45 : 0);
       bodyScaleX = 1 - jump * 0.055;
       bodyScaleZ = 1 - jump * 0.055;
-      targetYaw = -0.62; // Turn joyously toward the player!
+      targetYaw = -0.62;
       headPitch = 0.16 * jump;
       headYaw = -0.34;
       smileMesh.scale.set(1.15, 1.35, 1.15);
@@ -1716,15 +1931,35 @@ class Barnabe3DController {
       earR.rotation.z = -0.14 - Math.abs(Math.sin(f)) * 0.22;
       tailPivot.rotation.y = Math.sin(f) * 0.32;
     } else if (this.pigState === 'oops') {
-      const shake = Math.sin(this.stateTime * 34) * Math.exp(-this.stateTime * 3.5);
-      targetYaw = -0.55;
-      bodyY = 0.70;
-      headYaw = -0.30 + shake * 0.42;
-      headRoll = shake * 0.15;
-      headPitch = 0.06;
-      earL.rotation.z = 0.14;
-      earR.rotation.z = 0.14;
-      Object.values(legs).forEach((l) => { l.rotation.z *= 0.85; });
+      // Phase 1 (0..0.38s): Startled recoil hop from dust blast!
+      // Phase 2 (0.38s+): Puppy-style vigorous head & ear shake to fling off the dust!
+      const t = this.stateTime;
+      targetYaw = -0.58;
+      if (t < 0.38) {
+        const recoil = Math.sin((t / 0.38) * Math.PI);
+        bodyY = 0.70 + recoil * 0.24;
+        bodyPitch = recoil * 0.20;
+        bodyScaleY = 1 + recoil * 0.09;
+        bodyScaleX = 1 - recoil * 0.06;
+        headPitch = 0.22 * recoil;
+        headYaw = -0.34;
+        earL.rotation.z = 0.38 * recoil;
+        earR.rotation.z = 0.38 * recoil;
+        legs.fr.rotation.z = recoil * 0.35;
+        legs.fl.rotation.z = recoil * 0.35;
+      } else {
+        const st = t - 0.38;
+        const shakeEnv = Math.exp(-st * 2.1);
+        const vig = Math.sin(st * 42) * shakeEnv;
+        bodyY = 0.70 + Math.abs(vig) * 0.03;
+        bodyPitch = 0.03;
+        headYaw = -0.30 + vig * 0.48;
+        headRoll = vig * 0.32;
+        headPitch = 0.05;
+        earL.rotation.z = 0.14 + vig * 0.45;
+        earR.rotation.z = 0.14 - vig * 0.45;
+        Object.values(legs).forEach((l) => { l.rotation.z *= 0.85; });
+      }
     }
 
     if (this.pigState !== 'happy') {
@@ -1742,18 +1977,37 @@ class Barnabe3DController {
 
     headPivot.rotation.z += (headPitch - headPivot.rotation.z) * Math.min(1, dt * 12);
     headPivot.rotation.y += (headYaw - headPivot.rotation.y) * Math.min(1, dt * 10);
-    headPivot.rotation.x += (headRoll - headPivot.rotation.x) * Math.min(1, dt * 12);
+    headPivot.rotation.x += (headRoll - headPivot.rotation.x) * Math.min(1, dt * 14);
 
-    // Crisp natural Pixar blink
+    // Update Dirt/Dust Splatters on Barnabé's face & chest!
+    if (this.dustSplatTimer > 0) {
+      this.dustSplatTimer = Math.max(0, this.dustSplatTimer - dt);
+      const elapsedSplat = 1.95 - this.dustSplatTimer;
+      // Pop in sharply right as the dust hits (0.10s), stay muddy, then fade cleanly as he shakes off
+      let alpha = 0;
+      if (elapsedSplat > 0.08 && this.dustSplatTimer > 0.45) {
+        alpha = Math.min(0.92, (elapsedSplat - 0.08) * 9.0);
+      } else if (this.dustSplatTimer <= 0.45) {
+        alpha = (this.dustSplatTimer / 0.45) * 0.92;
+      }
+      dustSplatMat.opacity = alpha;
+      const show = alpha > 0.01;
+      dustSplatMeshes.forEach((m) => { m.visible = show; });
+    } else if (dustSplatMat.opacity > 0) {
+      dustSplatMat.opacity = 0;
+      dustSplatMeshes.forEach((m) => { m.visible = false; });
+    }
+
+    // Crisp natural Kawaii blink (only when eyes are open)
     this.blinkTimer -= dt;
-    if (this.blinkTimer <= 0 && this.pigState !== 'happy') {
+    if (this.blinkTimer <= 0 && this.pigState !== 'happy' && this.pigState !== 'oops') {
       this.blinkRemaining = 0.13;
       this.blinkTimer = 2.6 + Math.random() * 2.8;
     }
     if (this.blinkRemaining > 0) {
       this.blinkRemaining = Math.max(0, this.blinkRemaining - dt);
     }
-    const isBlinking = this.blinkRemaining > 0;
+    const isBlinking = this.blinkRemaining > 0 && this.pigState !== 'happy' && this.pigState !== 'oops';
     eyeL.blinkLid.visible = isBlinking;
     eyeR.blinkLid.visible = isBlinking;
 
@@ -1853,13 +2107,61 @@ class Barnabe3DController {
       p.mesh.scale.setScalar(1 - prog * 0.75);
       p.mat.opacity = 1 - prog;
     });
+
+    // Dust Explosion Billowy Clouds!
+    this.dustCloudPuffs.forEach((p) => {
+      if (p.life <= 0) return;
+      p.life -= dt;
+      if (p.life <= 0) {
+        p.mesh.visible = false;
+        return;
+      }
+      const prog = 1 - p.life / p.maxLife;
+      p.vel.multiplyScalar(Math.exp(-dt * 2.6));
+      p.vel.y += 0.35 * dt; // Warm buoyant dust rise
+      p.mesh.position.addScaledVector(p.vel, dt);
+      const sc = p.baseScale * (0.45 + Math.sin(Math.min(1, prog * 1.6) * Math.PI * 0.5) * 1.65);
+      p.mesh.scale.setScalar(sc);
+      p.mat.opacity = prog < 0.15 ? (prog / 0.15) * 0.88 : (1 - (prog - 0.15) / 0.85) * 0.88;
+    });
+
+    // Ground Blast Shockwave Ring
+    if (this.blastRingTimer > 0 && this.blastRing) {
+      this.blastRingTimer = Math.max(0, this.blastRingTimer - dt);
+      const prog = 1 - this.blastRingTimer / 0.45;
+      this.blastRing.scale.setScalar(0.5 + prog * 3.1);
+      this.blastRing.material.opacity = (1 - prog) * 0.78;
+      if (this.blastRingTimer <= 0) this.blastRing.visible = false;
+    }
+
+    // Floating "-3" Penalty Badge
+    if (this.lostBadgeTimer > 0 && this.lostBadge) {
+      this.lostBadgeTimer = Math.max(0, this.lostBadgeTimer - dt);
+      const prog = 1 - this.lostBadgeTimer / 1.15;
+      this.lostBadge.position.set(
+        this.lostBadgeOrigin.x - prog * 0.18,
+        this.lostBadgeOrigin.y + Math.sin(Math.min(1, prog * 1.2) * Math.PI * 0.5) * 1.15,
+        this.lostBadgeOrigin.z + 0.1
+      );
+      const sc = prog < 0.18 ? 0.5 + (prog / 0.18) * 0.72 : 1.12;
+      this.lostBadge.scale.set(1.05 * sc, 0.64 * sc, 1);
+      this.lostBadge.material.opacity = prog > 0.72 ? (1 - prog) / 0.28 : 1;
+      if (this.lostBadgeTimer <= 0) this.lostBadge.visible = false;
+    }
   }
 
   _updateCamera(dt) {
     const lerp = 1 - Math.exp(-dt * 4.5);
     this.camLookX += (this.camTargetX - this.camLookX) * lerp;
-    // Slight front-right angle so Barnabé's 3/4 Pixar face & eyes shine!
-    this.camera.position.set(this.camLookX + 1.48, 2.02, 5.45);
+    let shakeX = 0;
+    let shakeY = 0;
+    if (this.camShakeTimer > 0) {
+      this.camShakeTimer = Math.max(0, this.camShakeTimer - dt);
+      const intensity = (this.camShakeTimer / 0.28) * 0.11;
+      shakeX = (Math.random() - 0.5) * 2 * intensity;
+      shakeY = (Math.random() - 0.5) * 2 * intensity;
+    }
+    this.camera.position.set(this.camLookX + 1.48 + shakeX, 2.02 + shakeY, 5.45);
     this.camera.lookAt(this.camLookX - 0.05, 1.02, 0.0);
 
     if (this.sunKey) {

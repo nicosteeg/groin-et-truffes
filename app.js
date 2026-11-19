@@ -269,6 +269,36 @@
     oops() {
       playTone(270, 'sine', 0.12, 0, 0.1, 230);
       playTone(215, 'sine', 0.18, 0.11, 0.1, 185);
+    },
+    dustBoom() {
+      // Cartoonish puffy dust explosion (filtered noise burst + comical splat/boop)
+      const ctx = ensureAudio();
+      if (ctx) {
+        try {
+          const duration = 0.34;
+          const bufferSize = Math.floor(ctx.sampleRate * duration);
+          const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+          const data = buffer.getChannelData(0);
+          for (let i = 0; i < bufferSize; i++) {
+            data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.28));
+          }
+          const noise = ctx.createBufferSource();
+          noise.buffer = buffer;
+          const filter = ctx.createBiquadFilter();
+          filter.type = 'lowpass';
+          filter.frequency.setValueAtTime(950, ctx.currentTime);
+          filter.frequency.exponentialRampToValueAtTime(160, ctx.currentTime + duration);
+          const gain = ctx.createGain();
+          gain.gain.setValueAtTime(0.24, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+          noise.connect(filter);
+          filter.connect(gain);
+          gain.connect(ctx.destination);
+          noise.start(ctx.currentTime);
+        } catch (_) {}
+      }
+      playTone(210, 'sawtooth', 0.16, 0.01, 0.09, 95);
+      playTone(165, 'triangle', 0.22, 0.12, 0.11, 115);
     }
   };
 
@@ -290,6 +320,7 @@
     streakChip: document.getElementById('streakChip'),
     streakCount: document.getElementById('streakCount'),
     btnOpenWardrobeHud: document.getElementById('btnOpenWardrobeHud'),
+    btnQuickCycleHat: document.getElementById('btnQuickCycleHat'),
     hatHudText: document.getElementById('hatHudText'),
 
     forestSvgWrap: document.querySelector('.forest-svg-wrap'),
@@ -646,6 +677,9 @@
     if (window.Barnabe3D && window.Barnabe3D.initialized) {
       window.Barnabe3D.setHat(state.progress.equippedHat, celebrate);
     }
+    if (dom.btnQuickCycleHat) {
+      dom.btnQuickCycleHat.hidden = getUnlockedHatsCount() < 2;
+    }
     if (dom.hatHudText) {
       const count = state.progress.pickleLollipops;
       const inCycle = count % 3;
@@ -678,15 +712,18 @@
     syncTruffleTrackUI();
   }
 
-  function syncTruffleTrackUI(newlyEarnedIdx = -1) {
+  function syncTruffleTrackUI(newlyEarnedIdx = -1, lostRange = null) {
     const slots = dom.truffleSlotsContainer.querySelectorAll('.truffle-slot');
     slots.forEach((el, idx) => {
       const filled = idx < state.progress.cycleTruffles;
       el.classList.toggle('is-filled', filled);
-      el.classList.remove('just-earned');
+      el.classList.remove('just-earned', 'just-lost');
       if (idx === newlyEarnedIdx) {
         void el.offsetWidth;
         el.classList.add('just-earned');
+      } else if (lostRange && idx >= lostRange.start && idx < lostRange.end) {
+        void el.offsetWidth;
+        el.classList.add('just-lost');
       }
     });
     dom.cycleProgressText.textContent = `${state.progress.cycleTruffles}/10`;
@@ -1131,14 +1168,46 @@
     state.input.attemptsOnCurrent += 1;
     state.progress.streak = 0;
     dom.streakChip.classList.remove('is-visible');
-    sfx.oops();
+
+    // Lose up to 3 truffles from the current basket on a wrong answer!
+    const prevCycle = state.progress.cycleTruffles;
+    const lost = Math.min(3, prevCycle);
+    if (lost > 0) {
+      state.progress.cycleTruffles -= lost;
+      state.progress.totalTruffles = Math.max(0, state.progress.totalTruffles - lost);
+      saveState();
+    }
+
+    sfx.dustBoom();
     setPigState('oops');
     renderProblem('is-wrong');
 
+    if (window.Barnabe3D && window.Barnabe3D.initialized) {
+      window.Barnabe3D.triggerDustExplosion(lost);
+    }
+
+    if (lost > 0) {
+      syncTruffleTrackUI(-1, { start: state.progress.cycleTruffles, end: prevCycle });
+      bumpElement(dom.btnTruffleStats);
+    }
+
+    const lostTag = lost > 0 ? ` -${lost} truffe${lost > 1 ? 's' : ''} !` : '';
+
     if (state.input.attemptsOnCurrent === 1) {
-      // Give a friendly second chance!
+      // Friendly second chance after shaking off the dust explosion!
       state.isBusy = true;
-      setFeedback(customFirstHint || 'Oups, pas tout à fait ! Essaie encore une fois 🐽', 'hint');
+      setFeedback(
+        customFirstHint
+          ? `💥 Pouf !${lostTag} ${customFirstHint}`
+          : `💥 Pouf ! Explosion de poussière !${lostTag} Essaie encore 🐽`,
+        'hint'
+      );
+      setTimeout(() => {
+        if (lost > 0) {
+          setPigState('trot');
+          updatePigletPosition(state.progress.cycleTruffles, true);
+        }
+      }, 650);
       setTimeout(() => {
         state.input.single = '';
         state.input.factorA = '';
@@ -1149,17 +1218,23 @@
         state.isBusy = false;
         renderProblem();
         updateSubmitKeyAppearance();
-      }, 520);
+      }, lost > 0 ? 1150 : 950);
     } else {
       // Reveal solution gently and move to a fresh problem
       state.isBusy = true;
-      setFeedback(`La truffe s'est cachée ! C'était ${correctSolutionText}`, 'hint');
+      setFeedback(`💥 Pouf !${lostTag} C'était ${correctSolutionText}`, 'hint');
+      setTimeout(() => {
+        if (lost > 0) {
+          setPigState('trot');
+          updatePigletPosition(state.progress.cycleTruffles, true);
+        }
+      }, 750);
       setTimeout(() => {
         setPigState('sniff');
         state.isBusy = false;
         setFeedback('Nouvelle piste ! Aide Barnabé à fouiller 🐽');
         nextProblem();
-      }, 1650);
+      }, 1750);
     }
   }
 
@@ -1661,6 +1736,17 @@
       dom.btnOpenWardrobeHud.addEventListener('click', () => {
         sfx.tap();
         openCollectionModal();
+      });
+    }
+    if (dom.btnQuickCycleHat) {
+      dom.btnQuickCycleHat.addEventListener('click', () => {
+        const unlocked = getUnlockedHatsCount();
+        if (unlocked < 2) return;
+        const nextId = state.progress.equippedHat >= unlocked ? 1 : state.progress.equippedHat + 1;
+        state.progress.equippedHat = nextId;
+        sfx.switchSlot();
+        syncPigHatUI(true);
+        saveState();
       });
     }
     dom.btnCloseCollection.addEventListener('click', () => {
